@@ -1,0 +1,24 @@
+The API that is built into the microCMS is intended to be small and easy to extend.
+As of now, it includes:
+
+Database
+ - confirm_query
+ - query
+ - fetch_assoc
+ - fetch_array
+ - rows
+ - prep_data
+ 
+Core
+ - redirect_to
+ - verifyEmail
+ -- Pending
+  --- set_admin
+  --- log_timer
+  --- check_version
+
+Sentry
+ - get_real_ip
+ - ip_location
+ - check_ban
+ - ban_ip

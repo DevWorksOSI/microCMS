@@ -1,0 +1,219 @@
+/** global element styling **/
+@import "https://fonts.googleapis.com/css?family=Lato:400,700";
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+	margin: 30px 0 20px 0;
+	padding: 0;
+	background: #D7D7BD;
+	text-align: justify;
+	line-height: 25px;
+	font-family: 'Lato', sans-serif;
+	font-size: 16px;
+	font-weight:300;
+	color: #3C3C37;
+}
+/** Style for wrapper starts here */
+
+#wrapper {
+	max-width: 1200px;
+	width: 100%;
+	margin: 0px auto;
+	background: #FFFFFF;
+	padding: 10px;
+	position: relative;
+}
+
+h1, h2, h3 {
+	padding: 0;
+	margin: 0;
+	/*text-transform: lowercase;*/
+	color: #000000;
+}
+h4 {
+	padding: 0;
+	margin: 0;
+	color: #000000;
+}
+.content {
+	width: 1100px;
+    overflow: auto;
+	color: #000000;
+	margin: 0px auto;
+	padding-top: 10px;
+	padding-bottom: 10px;
+}
+
+.main {
+	width: 1000px;
+	color: #000000;
+	margin: 5px auto;
+	padding-top: 25px;
+    padding-bottom: 25px;
+}
+
+.nav {
+  list-style-type: none;
+  text-align: center;
+  margin: 0;
+  padding: 0;
+  background-color: #000000;
+}
+
+.nav li {
+  display: inline-block;
+  font-size: 20px;
+  padding: 20px;
+}
+
+.nav li a {
+	color: #FFFFFF;
+	text-decoration: none;
+}
+
+.nav li a:hover {
+	color: #005880;
+	text-decoration: none;
+}
+
+a {
+	color: #000000;
+	text-decoration: none;
+}
+
+a:hover {
+	text-decoration: none;
+	color: #005880;
+}
+a:img {
+	text-decoration: none;
+}
+
+.alert {
+	font-size: 16px;
+	color: #FF0000;
+	padding: 20px;
+	border: 1px dotted red;
+    width: 1100px;
+    overflow: auto;
+}
+
+.codebox {
+    border: 3px dotted black;
+    width: 900px;
+    overflow: auto;
+	color: #000000;
+	padding: 20px;
+}
+
+#header {
+	width: 1100px;
+	height: 250px;
+	margin: 0px auto;
+	background: url(/themes/core/img/dw_pool_header.jpg);
+	background-color: #a9a9a9;
+}
+#features {
+  margin-top: 30px;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;  
+}
+
+#features .level{
+  background-color: #fff;
+  color: black;
+  padding: 15px 0;
+  width: 100%;
+  font-weight: 700;
+}
+
+#features .box {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  width: calc(100%  / 4);
+  margin: 10px;
+  padding: 5px 10px 5px 10px;
+  border: 1px solid #D7D7BD;
+  border-radius: 2px;
+}
+
+#features .stuff {
+	align-items: left;
+	text-align: left;
+	font-weight: 400;
+}
+
+li {
+  list-style: none;
+}
+
+
+/** Blogs **/
+#blogs {
+	width: 900px;
+	color: #000000;
+	margin: 25px auto;
+	padding-top: 25px;
+    padding-bottom: 10px;
+	padding-left: 25px;
+    padding-right: 25px;
+}
+
+#blog {
+	width: 900px;
+	color: #000000;
+	margin: 25px auto;
+	padding-top: 25px;
+    padding-bottom: 10px;
+	padding-left: 25px;
+    padding-right: 25px;
+	text-align: center;
+}
+#blog .story {
+	text-align: left;
+}
+
+#blog .img{
+	width: 900px;
+	color: #000000;
+	margin: 25px auto;
+	padding-top: 25px;
+    padding-bottom: 10px;
+	padding-left: 25px;
+    padding-right: 25px;
+	text-align: center;
+}
+
+/** Style for footer starts here */
+
+#footer {
+	clear: both;
+	width: 1150px;
+	height: 50px;
+	margin: 0px auto;
+	padding: 13px 20px 20px 13px;
+	background: #000000;
+	font-size: 13px;
+	color: #E5E5CC;
+}
+
+#footer .copyright {
+	float: left;
+	margin: 0px;
+	padding-left: 10px;
+	text-align: center;
+}
+
+#footer .links {
+	float: right;
+	margin: 0px;
+	padding-right: 10px;
+	text-align: center;
+}

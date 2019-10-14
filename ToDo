@@ -1,0 +1,16 @@
+1. Create Management area and Controller Classes
+  - Blogs
+  - News
+  - Modules
+  - Version Check (Check for updates)
+  
+2. Create News Front End Class
+ - Slug URL's
+ 
+3. Tie News into main module (if news is selected in settings)
+
+4. Re Impement httbl functionality
+
+5. Create installer
+
+6. Create Boot strapped Blog Theme

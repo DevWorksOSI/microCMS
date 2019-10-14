@@ -1,0 +1,56 @@
+# Disallow Indexes
+Options -Indexes
+
+RewriteEngine On
+RewriteBase /
+
+# https
+# if you are using https, uncomment the next two lines
+
+RewriteCond %{HTTPS} off
+RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+  
+# Logging PHP Errors
+# this will log to the logs directory in your web root
+php_flag log_errors on 
+php_value error_log /logs/php_error.log
+
+# Site Errors
+
+# Bad Request
+ErrorDocument 400 /error
+
+# Unauthorized
+ErrorDocument 401 /error
+
+# Forbidden
+ErrorDocument 403 /error
+
+# Not Found
+ErrorDocument 404 /error
+
+# Not Found
+ErrorDocument 408 /error
+
+# Gone
+ErrorDocument 410 /error
+
+# Internal Server Error
+ErrorDocument 500 /error
+
+# Service Unavailable
+ErrorDocument 503 /error
+
+# Redirects to the error module
+RewriteRule ^error /?p=error
+
+# Blogs
+RewriteRule ^blogs /?p=blogs
+
+# Site Navigation
+# ^sometitle /?p=title
+
+# Auto Reditrects
+# If a Blog is written via the management interface
+# it's redirect will automatically be written below
+# DO NOT add anything below these redirects, add them above
