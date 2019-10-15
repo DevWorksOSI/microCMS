@@ -16,9 +16,3 @@ Core
   --- set_admin
   --- log_timer
   --- check_version
-
-Sentry
- - get_real_ip
- - ip_location
- - check_ban
- - ban_ip
