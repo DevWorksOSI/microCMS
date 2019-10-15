@@ -14,7 +14,7 @@ This revamp started in March of 2019
 Same as the Micro-CMS, small footprint, easy to install, fast load, class based, extendable and modularized.
 
 ### Issues
-Please see <a href="docs/issue_template.md">this</a> then use the <a href="https://github.com/DevWorksOSI/microCMS/issues">Issue Tracker</a> for any issues that warrent attention
+Please see <a href="docs/bug_report.md">this</a> then use the <a href="https://github.com/DevWorksOSI/microCMS/issues">Issue Tracker</a> for any issues that warrent attention
 
 ### Contributing
 Please see <a href="docs/CONTRIBUTING.md">this</a>
