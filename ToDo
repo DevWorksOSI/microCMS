@@ -3,14 +3,11 @@
   - News
   - Modules
   - Version Check (Check for updates)
-  
-2. Create News Front End Class
- - Slug URL's
  
-3. Tie News into main module (if news is selected in settings)
+2. Tie Top Blogs into main module
 
-4. Re Impement httbl functionality
+3. Re Impement httbl functionality
 
-5. Create installer
+4. Create installer
 
-6. Create Boot strapped Blog Theme
+5. Create Boot strapped Blog Theme
