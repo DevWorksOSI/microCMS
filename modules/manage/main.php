@@ -333,8 +333,6 @@ else
 	 * For each Method within the Management Center
 	 * Blogs
 	 * News
-	 * SEO
-	 * Site Settings
 	 * The Switch Below will become dynamic
 	*/
 	
