@@ -34,8 +34,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [2.0.0] - 20190924 0150 UTC - Development
 
 ### Added
-- IP based Security Checks
-- Sentry Security Class
 - Core Class
 - Database Class
 - Core Theme
