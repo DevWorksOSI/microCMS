@@ -71,7 +71,7 @@ class db
 	 * Does associated fetch in MySQLi
 	 * gets its $string from the page
 	 *
-	 * USAGE: $db->fetch($result);
+	 * USAGE: $db->fetch_assoc($result);
 	*/
 	public function fetch_assoc($string)
 	{
@@ -83,7 +83,7 @@ class db
 	 * Does array fetch in MySQLi
 	 * gets its $string from the page
 	 *
-	 * USAGE: $db->fetch($result);
+	 * USAGE: $db->fetch_array($result);
 	*/
 	public function fetch_array($string)
 	{
