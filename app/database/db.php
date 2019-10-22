@@ -43,10 +43,13 @@ class db
 	*/
 	public function confirm_query($result_set)
 	{
+		$conn = $this->dbConnect();
 		if (!$result_set) 
 		{
-			die("Database query failed." . mysqli_error());
+			die("Database query failed." . mysqli_error($conn));
 		}
+		// Close the connection
+		$this->closeConnection();
 	}
 	
 	/*
@@ -71,7 +74,7 @@ class db
 	 * Does associated fetch in MySQLi
 	 * gets its $string from the page
 	 *
-	 * USAGE: $db->fetch_assoc($result);
+	 * USAGE: $db->fetch($result);
 	*/
 	public function fetch_assoc($string)
 	{
@@ -83,7 +86,7 @@ class db
 	 * Does array fetch in MySQLi
 	 * gets its $string from the page
 	 *
-	 * USAGE: $db->fetch_array($result);
+	 * USAGE: $db->fetch($result);
 	*/
 	public function fetch_array($string)
 	{
@@ -111,7 +114,7 @@ class db
 	*/
 	public function prep_data($string)
 	{
-		$conn = $this->dbConnect()();
+		$conn = $this->dbConnect();
 		$escaped_string = mysqli_real_escape_string($conn, $string);
 		return $escaped_string;
 		$this->closeConnection();

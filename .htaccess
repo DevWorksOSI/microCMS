@@ -1,19 +1,17 @@
-# Disallow Indexes
 Options -Indexes
 
 RewriteEngine On
 RewriteBase /
+RewriteCond %{HTTP_HOST} ^devworksosi.tech [NC]
 
+RewriteRule ^(.*)$ http://www.devworksosi.tech/$1 [L,R=301,NC]
 # https
-# if you are using https, uncomment the next two lines
-
 RewriteCond %{HTTPS} off
 RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
   
 # Logging PHP Errors
-# this will log to the logs directory in your web root
 php_flag log_errors on 
-php_value error_log /logs/php_error.log
+php_value error_log logs/php_error.log
 
 # Site Errors
 
@@ -41,16 +39,12 @@ ErrorDocument 500 /error
 # Service Unavailable
 ErrorDocument 503 /error
 
-# Redirects to the error module
 RewriteRule ^error /?p=error
 
-# Blogs
-RewriteRule ^blogs /?p=blogs
+# User
+RewriteRule ^signup /?p=signup [L]
+RewriteRule ^login /?p=login [L]
+RewriteRule ^logout /?p=logout [L]
 
-# Site Navigation
-# ^sometitle /?p=title
-
-# Auto Reditrects
-# If a Blog is written via the management interface
-# it's redirect will automatically be written below
-# DO NOT add anything below these redirects, add them above
+# Site Management
+RewriteRule ^manage /?p=manage [L]

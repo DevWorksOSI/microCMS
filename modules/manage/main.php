@@ -5,299 +5,162 @@ if (basename($_SERVER['PHP_SELF']) == basename(__FILE__))
 }
 else
 {
-	/*
-	 * Function operatives
-	 * Set the operation variable for the switch
-	 */
-	if (isset($_GET['op']))
+	$admin = $_SESSION['admin'];
+	if($admin == FALSE)
 	{
-		$d = $_GET['op'];
+		$core->redirect_to("/");
 	}
-	elseif (isset($_POST['op']))
-	{ // Forms
-		$d = $_POST['op'];
-	} 
 	else
 	{
-		$d = NULL;
-	}
-	
-	// Functions
-	
-	function manage()
-	{
-		$core = new microcms\core;
-		$db = new database\db;
 		echo '<div class="main">';
-		if(!isset($_SESSION['admin']))
+		
+		/*
+		* Function operatives
+		* Set the operation variable for the switch
+		*/
+		if (isset($_GET['op']))
 		{
-			echo '<h2>WARNING!</h2>';
-			echo '<p>You do not belong here, your IP address has been tracked. We will ban you if you continue. you have been warned.</p>';
+			$d = $_GET['op'];
 		}
+		elseif (isset($_POST['op']))
+		{
+			$d = $_POST['op'];
+		} 
 		else
 		{
+			$d = NULL;
+		}
+		
+		function all()
+		{
+			echo '<p><small><a href="/" hreflang="en">Home</a> >> Site Management</small></p>';
+			echo '<h3>Site Management</h3>';
+			$db = new database\db;
 			echo '<div id="adminmenu">';
+			echo '<h3>Non Core Modules</h3>';
 			echo '<ul>';
-			$query = "SELECT * FROM modules WHERE module_type = 1";
+			$query = "SELECT * FROM modules WHERE module_type = 1 && active = 1";
 			$result = $db->query($query);
 			while($row = $db->fetch_assoc($result))
 			{
 				$module_name = $row['module_name'];
 				$module_link = $row['module_link'];
-				echo '<li><a href="/?p=manage&op='.$module_name.'"><img src="/img/manage/'.$module_name.'.png"><br>'.$module_link.'</a></li>';
+				echo '<li><a href="/?p=manage&op='.$module_name.'"><img src="img/manage/'.$module_name.'.png"><br>'.$module_link.'</a></li>';
 			}
-			echo '<li><a href="/?p=manage&op=settings"><img src="/img/manage/settings.png"><br>Site Settings</a></li>';
 			echo '</ul>';
+			echo '<hr>';
+			echo '<h3>Core Modules</h3>';
+			echo '<ul>';
+			echo '<li><a href="/?p=manage&op=blogs"><img src="img/manage/blogs.png" height="40"><br>Blogs</a></li>';
+			echo '<li><a href="/?p=manage&op=modules"><img src="img/manage/modules.png" height="40"><br>Modules</a></li>';
+			echo '<li><a href="/?p=manage&op=seo"><img src="img/manage/seo.png" width="40"><br>Settings</a></li>';
+			echo '<li><a href="/?p=manage&op=version"><img src="img/manage/version.png" width="40"><br>Update</a></li>';
+			echo '</ul>';
+			echo '<br>';
+			echo '</div>';
 			echo '<br><br>';
-			echo '</div>';
-				
 		}
-		echo '</div>';		
-	}
-	function seo()
-	{
-		$core = new microcms\core;
-		$db = new database\db;
-		$settings = new microcms\settings;
-		if(!isset($_SESSION['admin']))
-		{
-			echo '<h2>WARNING!</h2>';
-			echo '<p>You do not belong here, your IP address has been tracked. We will ban you if you continue. you have been warned.</p>';
-		}
-		else
-		{
-			echo '<div class="main">';
-			echo '<h2>SEO</h2>';
-			echo '<p>Welcome to SEO Settings</p>';
-			echo '<div>';
 		
+		function seo()
+		{
+			$db = new database\db;
+			$core = new site\core;
+			echo '<p><small><a href="/" hreflang="en">Home</a> >> <a href="/manage">Site Management</a> >> SEO</small></p>';
+			echo '<h3>SEO</h3>';
+			echo '<p>The Purpose of SEO is to make your site Search Engine Optimized. What you will find here is the most common information used by search engines.</p>';
 			if(isset($_POST['update']))
 			{
-				$facebook = $db->prep_data($_POST['facebook']);
-				$twitter = $db->prep_data($_POST['twitter']);
-				$youtube = $db->prep_data($_POST['youtube']);
-				$instagram = $db->prep_data($_POST['instagram']);
-				$google_verification = $db->prep_data($_POST['google_verification']);
-				$google_analytics_id = $db->prep_data($_POST['google_analytics_id']);
-				$bing_verification = $db->prep_data($_POST['bing_verification']);
-			
-				$query = "UPDATE seo SET facebook='$facebook', twitter='$twitter', youtube='$youtube', instagram='$instagram', google_verification='$google_verification', google_analytics='$google_analytics_id', bing_verification='$bing_verification'";
-				$result = $db->query($query);
-				if(!$result)
-				{
-					echo '<h2>ERROR</h2>';
-					echo '<p>There was an error while attemptng to update the SEO settings.</p>';
-				}
-				else
-				{
-					$core->redirect_to("/?p=manage&op=seo");
-				}
-			}
-			else
-			{
-				echo '<p>Please only use your handle for each Social and SEO setting as the base url for each is hard coded.<br>IE: Facebook, Twitter, Youtube, Etc...</p>';
-				echo '<p>If you are not going to use any of the Feilds below, just leave them blank, the rest of your information will be stored.</p>';
-				echo '<p>';
-				// Wee need the SEO data
-				$facebook = $settings->facebook;
-				$twitter = $settings->twitter;
-				$youtube = $settings->youtube;
-				$instagram = $settings->instagram;
-				$google_verification = $settings->google_verification;
-				$google_analytics_id = $settings->google_analytics_id;
-				$bing_verification = $settings->bing_verification;
-
-				echo '<form name="seo" id="seo" action="/?p=manage&op=seo" method="post">';
-				echo '<fieldset>';
-				echo '<legend><strong>Social Media Settings</strong></legend>';
-				// Facebook
-				if($facebook == '')
-				{
-					echo '<strong>Facebook</strong>: <input type="text" name="facebook"><br>';
-				}
-				else
-				{
-					echo '<strong>Facebook</strong>: <input type="text" name="facebook" value="'.$facebook.'"><br>';
-				}
-				// Twitter
-				if($twitter == '')
-				{
-					echo '<strong>Twitter</strong>: <input type="text" name="twitter"><br>';
-				}
-				else
-				{
-					echo '<strong>Twitter</strong>: <input type="text" name="twitter" value="'.$twitter.'"><br>';
-				}
-				// Youtube
-				if($youtube == '')
-				{
-					echo '<strong>Youtube</strong>: <input type="text" name="youtube"><br>';
-				}
-				else
-				{
-					echo '<strong>Youtube:</strong> <input type="text" name="youtube" value="'.$youtube.'"><br>';
-				}
-			
-				// Instagram
-				if($instagram == '')
-				{
-					echo '<strong>Instagram</strong>: <input type="text" name="instagram"><br>';
-				}
-				else
-				{
-					echo '<strong>Instagram:</strong> <input type="text" name="instagram" value="'.$instagram.'"><br>';
-				}
-				echo '</fieldset>';
-				echo '<br>';
-				echo '<fieldset>';
-				echo '<legend><strong>Search Engine Settings</strong></legend>';
-				// Google Site Verification
-				if($google_verification == '')
-				{
-					echo '<strong>Google Site Verification</strong>: <input type="text" name="google_verification"><br>';
-				}
-				else
-				{
-					echo '<strong>Google Site Verification:</strong> <input type="text" name="google_verification" value="'.$google_verification.'"><br>';
-				}
+				// Settings
+				$site_name = $_POST['site_name'];
+				$base_url = $_POST['base_url'];
+				$site_logo = $_POST['site_logo'];
+				$description = $_POST['description'];
+				$keywords = $_POST['keywords'];
+				$site_email = $_POST['site_email'];
+				$site_theme = $_POST['site_theme'];
 				
-				// Google Analytics
-				if($google_analytics_id == '')
-				{
-					echo '<strong>Google Analytics ID</strong>: <input type="text" name="google_analytics_id"><br>';
-				}
-				else
-				{
-					echo '<strong>Google Analytics ID:</strong> <input type="text" name="google_analytics_id" value="'.$google_analytics_id.'"><br>';
-				}
+				// SEO
+				$facebook = $_POST['facebook'];
+				$twitter = $_POST['twitter'];
+				$youtube = $_POST['youtube'];
+				$instagram = $_POST['instagram'];
+				$google_analytics = $_POST['google_analytics'];
+				$google_code = $_POST['google_code'];
+				$bing_code = $_POST['bing_code'];
 				
-				// Bing Site Verification
-				if($bing_verification == '')
-				{
-					echo '<strong>Bing Site Verification</strong>: <input type="text" name="bing_verification"><br>';
-				}
-				else
-				{
-					echo '<strong>Bing Site Verification:</strong> <input type="text" name="bing_verification" value="'.$bing_verification.'"><br>';
-				}
-				echo '</fieldset>';
-				
-				echo '<input type="submit" name="update" value="Update SEO"><br>';
-				echo '</form>';
-				echo '</p>';
-			}
-			echo '</div>';
-			echo '<p><a href="/manage">Return to Management</a></p>';
-			echo '</div>';
-		}
-	}
-	
-	function settings()
-	{
-		$core = new microcms\core;
-		$db = new database\db;
-		$settings = new microcms\settings;
-		echo '<div class="main">';
-		if(!isset($_SESSION['admin']))
-		{
-			echo '<h2>WARNING!</h2>';
-			echo '<p>You do not belong here, your IP address has been tracked. We will ban you if you continue. you have been warned.</p>';
-		}
-		else
-		{
-			if(isset($_POST['update']))
-			{
-				$site_name = $db->prep_data($_POST['site_name']);
-				$base_url = $db->prep_data($_POST['base_url']);
-				$site_logo = $db->prep_data($_POST['site_logo']);
-				$site_description = $db->prep_data($_POST['site_description']);
-				$site_keywords = $db->prep_data($_POST['site_keywords']);
-				$site_email = $db->prep_data($_POST['site_email']);
-				$site_theme = $db->prep_data($_POST['site_theme']);
-				$query = "UPDATE settings SET site_name='$site_name', base_url='$base_url', site_logo='$site_logo', description='$site_description', keywords='$site_keywords', site_email='$site_email', site_theme='$site_theme'";
+				// Update settings
+				$query = "UPDATE settings SET site_name='$site_name', base_url='$base_url', site_logo='$site_logo', description='$description', keywords='$keywords', site_email='$site_email', site_theme='$site_theme'";
 				$result = $db->query($query);
 				if($result)
 				{
-					echo '<h2>Success!</h2>';
-					echo '<p><a href="/?p=manage&op=settings"><strong>Confirm</strong></a></p>';
-				}
-				else
-				{
-					echo '<h2>ERROR!</h2>';
-					echo '<p>There was an error when trying to update your site\'s settings!</p>';
+					// Update SEO
+					$query = "UPDATE seo SET facebook='$facebook', twitter='$twitter', youtube='$youtube', instagram='$instagram', google_analytics='$google_analytics', google_verification='$google_code', bing_verification='$bing_code'";
+					$result = $db->query($query);
+					if($result)
+					{
+						$core->redirect_to("/?p=manage&op=seo");
+					}
 				}
 			}
 			else
 			{
-				
-				$site_name = $settings->site_name;
-				$base_url = $settings->base_url;
-				$description = $settings->description;
-				$keywords = $settings->keywords;
-				$site_email = $settings->site_email;
-				$site_logo = $settings->site_logo;
-				$site_theme = $settings->site_theme;
-				echo '<br>';
-				echo '<h1>Site Settings</h1>';
-				echo '<p>Every part of this form is required or your site will not work correctly and never be found by anyone.</p>';
-				echo '<br>';
+				// We need the data from Settings and SEO
+				$query = "SELECT * FROM settings";
+				$result = $db->query($query);
+				$row = $db->fetch_assoc($result);
+				echo '<form action="/?p=manage&op=seo" method="POST">';
 				echo '<fieldset>';
-				echo '<legend><strong>Base Settings</strong></legend>';
-				echo '<form name="settings" id="settings" action="/?p=manage&op=settings" method="post">';
-				// Facebook
-				if($site_name == '')
+				echo '<legend><strong>Site Settings</strong></legend>';
+				echo '<table border="0" cellpadding="3" cellsapcing="3" width="100%">';
+				echo '<tr>';
+				echo '<td><label for="site_name">Site Name:</label></td>';
+				echo '<td>&nbsp;</td>';
+				echo '<td><input id="site_name" name="site_name" type="text" required value="'.$row['site_name'].'"></td>';
+				echo '</tr>';
+				echo '<tr>';
+				echo '<td><label for="base_url">URL:</label></td>';
+				echo '<td>&nbsp;</td>';
+				echo '<td><input id="base_url" name="base_url" type="text" required value="'.$row['base_url'].'"></td>';
+				echo '</tr>';
+				echo '<tr>';
+				echo '<td><label for="site_logo">Logo:</label></td>';
+				echo '<td>&nbsp;</td>';
+				// We need to change this to a select
+				//echo '<td><input id="site_logo" name="site_logo" type="text" required value="'.$row['site_logo'].'"></td>';
+				echo '<td><select name="site_logo" id="site_logo">';
+				$dirPath = dir('img');
+				while (($file = $dirPath->read()) !== false)
 				{
-					echo '<strong>Site Name:</strong>: <input type="text" name="site_name"><br><br>';
+					if($file != '.' && $file != '..' && $file != '.ico')
+					{
+						echo "<option value=\"" . trim($file) . "\">" . $file . "\n";
+					}
 				}
-				else
-				{
-					echo '<strong>Site Name:</strong>: <input type="text" name="site_name" value="'.$site_name.'"><br><br>';
-				}
-				if($base_url == '')
-				{
-					echo '<strong>Base URL:</strong>: <input type="text" name="base_url"> <small>http:// or https://somedomain.com</small><br><br>';
-				}
-				else
-				{
-					echo '<strong>Base URL:</strong>: <input type="text" name="base_url" value="'.$base_url.'"><br><br>';
-				}
-				echo '<legend><strong>Site Logo</strong></legend>';
-				if($site_logo == '')
-				{
-					echo '<strong>Site Logo:</strong>: <input type="text" name="site_logo"> <small>Image must be in the <code>img</code> directory</small><br><br>';
-				}
-				else
-				{
-					echo '<strong>Site Logo:</strong>: <input type="text" name="site_logo" value="'.$site_logo.'"><br><br>';
-				}
-				echo '<legend><strong>Site Description</strong></legend>';
-				if($description == '')
-				{
-					echo '<textarea name="site_description" rows="10" cols="60"></textarea><br><br>';
-				}
-				else
-				{
-					echo '<textarea name="site_description" rows="10" cols="60">'.$description.'</textarea><br><br>';
-				}
-				echo '<legend><strong>Key Words</strong></legend>';
-				if($keywords == '')
-				{
-					echo '<textarea name="site_keywords" rows="10" cols="60"></textarea><br><br>';
-				}
-				else
-				{
-					echo '<textarea name="site_keywords" rows="10" cols="60">'.$keywords.'</textarea><br><br>';
-				}
-				echo '<legend><strong>Site Email Address</strong></legend>';
-				if($site_email == '')
-				{
-					echo '<strong>Site Email:</strong>: <input type="text" name="site_email"><br><br>';
-				}
-				else
-				{
-					echo '<strong>Site Email:</strong>: <input type="text" name="site_email" value="'.$site_email.'"><br><br>';
-				}
-				echo '<legend><strong>Theme</strong></legend>';
+				$dirPath->close();
+				echo '</select>';
+				echo '</select>';
+				echo '</td>';
+				echo '</tr>';
+				echo '<tr>';
+				echo '<td valign="top"><label for="description">Site Description:</label></td>';
+				echo '<td>&nbsp;</td>';
+				echo '<td><textarea rows="5" cols="50" id="description" name="description">'.$row['description'].'</textarea></td>';
+				echo '</tr>';
+				echo '<tr>';
+				echo '<td valign="top"><label for="keywords">Site Key Words:</label></td>';
+				echo '<td>&nbsp;</td>';
+				echo '<td><textarea rows="5" cols="50" id="keywords" name="keywords">'.$row['keywords'].'</textarea></td>';
+				echo '</tr>';
+				echo '<tr>';
+				echo '<td><label for="site_email">Site Email Address:</label></td>';
+				echo '<td>&nbsp;</td>';
+				echo '<td><input id="site_email" name="site_email" required value="'.$row['site_email'].'"></td>';
+				echo '</tr>';
+				echo '<tr>';
+				echo '<td><label for="site_theme">Site Theme:</label></td>';
+				echo '<td>&nbsp;</td>';
+				echo '<td>';
+				echo '<select name="site_theme" id="site_theme">';
 				$dir = "themes";
 				$handle = opendir($dir);
 				while($name = readdir($handle))
@@ -306,57 +169,469 @@ else
 					{
 						if($name != '.' && $name != '..')
 						{
-							if($site_theme == '')
-							{
-								echo '<input type="radio" name="site_theme" value="'.$name.'">  '.$name.'&nbsp;';
-							}
-							else
-							{
-								echo '<input type="radio" name="site_theme" value="'.$name.'" checked>  '.$name.'&nbsp;';
-							}
+							echo '<option>'.$name.'</option>';
 						}
 					}
 				}
 				closedir($handle);
+				echo '</select>';
+				echo '</td>';
+				echo '</tr>';
+				echo '</table>';
+				echo '<br>';
+				$query = "SELECT * FROM seo";
+				$result = $db->query($query);
+				$seo = $db->fetch_assoc($result);
+				echo '<legend><strong>Social Media</strong></legend>';
+				echo '<table border="0" cellpadding="3" cellspacing="3" width="100%">';
+				echo '<tr>';
+				echo '<td><label for="facebook">Facebook:</label></td>';
+				echo '<td>&nbsp;</td>';
+				echo '<td><input id="facebook" name="facebook" type="text" value="'.$seo['facebook'].'"> <small>Facebook Account Name</small></td>';
+				echo '</tr>';
+				echo '<tr>';
+				echo '<td><label for="twitter">Twitter:</label></td>';
+				echo '<td>&nbsp;</td>';
+				echo '<td><input id="twitter" name="twitter" type="text" value="'.$seo['twitter'].'"> <small>Twitter Account Name</small></td>';
+				echo '</tr>';
+				echo '<tr>';
+				echo '<td><label for="youtube">Youtube:</label></td>';
+				echo '<td>&nbsp;</td>';
+				echo '<td><input id="youtube" name="youtube" type="text" value="'.$seo['youtube'].'"> <small>Youtube Account Name</small></td>';
+				echo '</tr>';
+				echo '<tr>';
+				echo '<td><label for="instagram">Instagram:</label></td>';
+				echo '<td>&nbsp;</td>';
+				echo '<td><input id="instagram" name="instagram" type="text" value="'.$seo['instagram'].'"> <small>Instagram Account Name</small></td>';
+				echo '</tr>';
+				echo '</table>';
+				echo '<br>';
+				echo '<legend><strong>Google Analytics</strong></legend>';
+				echo '<table border="0" cellpadding="3" cellsapcing="3" width="100%">';
+				echo '<tr>';
+				echo '<td><label for="google_analytics">Analytics ID:</label></td>';
+				echo '<td>&nbsp;</td>';
+				echo '<td><input id="google_analytics" name="google_analytics" type="text" value="'.$seo['google_analytics'].'"> <a href="https://support.google.com/analytics/answer/1008015?hl=en" hreflang="en" target="_blank"><strong>?</strong></a></td>';
+				echo '</tr>';
+				echo '</table>';
+				echo '<br>';
+				echo '<legend><strong>Google Search Engine</strong></legend>';
+				echo '<table border="0" cellpadding="3" cellsapcing="3" width="100%">';
+				echo '<tr>';
+				echo '<td><label for="google_code">Google Meta Code:</label></td>';
+				echo '<td>&nbsp;</td>';
+				echo '<td><input id="google_code" name="google_code" type="text" value="'.$seo['google_verification'].'"> <a href="https://support.google.com/webmasters/answer/9008080?hl=en" hreflang="en" target="_blank"><strong>?</strong></a></td>';
+				echo '</tr>';
+				echo '</table>';
+				echo '<br>';
+				echo '<legend><strong>Bing Search Engine</strong></legend>';
+				echo '<table border="0" cellpadding="3" cellsapcing="3" width="100%">';
+				echo '<tr>';
+				echo '<td><label for="bing_code">Bing Meta Code:</label></td>';
+				echo '<td>&nbsp;</td>';
+				echo '<td><input id="bing_code" name="bing_code" type="text" value="'.$seo['bing_verification'].'"> <a href="https://www.bing.com/webmaster/help/how-to-verify-ownership-of-your-site-afcfefc6" hreflang="en" target="_blank"><strong>?</strong></a></td>';
+				echo '</tr>';
+				echo '<tr>';
+				echo '<td>&nbsp;</td>';
+				echo '<td>&nbsp;</td>';
+				echo '<td><br><input id="update" name="update" type="submit" value="Update Now"></td>';
+				echo '</tr>';
+				echo '</table>';
 				echo '</fieldset>';
-				echo '<input type="submit" name="update" value="Update Now!"><br>';
 				echo '</form>';
-				echo '<p></p>';
-				echo '<p><a href="/manage">Return to Site Management</a></p>';
-				echo '</div>';
 			}
 		}
-	}
-	
-	/*
-	 * Additional Functions needed
-	 * For each Method within the Management Center
-	 * Blogs
-	 * News
-	 * The Switch Below will become dynamic
-	*/
-	
-	/*
-	 * Switch
-	 * Allows function to be used
-	 * $d is derived from the Function operatives
-	 */
-	switch($d)
-	{
-		// SEO
-		case 'seo':
-			seo();
-			break;
+		
+		function modules()
+		{
+			$db = new database\db;
+			$core = new site\core;
+			echo '<p><small><a href="/" hreflang="en">Home</a> >> <a href="/manage">Site Management</a> >> Modules</small></p>';
+			echo '<h3>Modules</h3>';
+			echo '<table border="0" cellpadding="3" cellspacing="3" width="100%">';
+			echo '<tr>';
+			echo '<td><strong>Module Name</strong></td>';
+			echo '<td>&nbsp;</td>';
+			echo '<td><strong>Module Type</strong></td>';
+			echo '<td>&nbsp;</td>';
+			echo '<td><strong>Status</strong></td>';;
+			echo '<td>&nbsp;</td>';
+			echo '<td>&nbsp;</td>';
+			echo '<td>&nbsp;</td>';
+			echo '<td>&nbsp;</td>';
+			echo '<td>&nbsp;</td>';
+			echo '<td>&nbsp;</td>';
+			echo '</tr>';
+			$query = "SELECT * FROM modules ORDER BY module_name ASC";
+			$result = $db->query($query);
+			while($rows = $db->fetch_assoc($result))
+			{
+				$module_id = $rows['id'];
+				$module_name = $rows['module_name'];
+				$module_link = $rows['module_link'];
+				$module_type = $rows['module_type'];
+				$active = $rows['active'];
+				
+				// Module Types
+				if($module_type == 1)
+				{
+					$type = 'Admin';
+				}
+				if($module_type == 0)
+				{
+					$type = 'User';
+				}
+				
+				// Statuses
+				if($active == 1)
+				{
+					$status = 'Active';
+				}
+				else
+				{
+					$status = 'In Active';
+				}
+				echo '<tr>';
+				echo '<td>'.$module_link.'</td>';
+				echo '<td>&nbsp;</td>';
+				echo '<td>'.$type.'</td>';
+				echo '<td>&nbsp;</td>';
+				echo '<td>'.$status.'</td>';
+				echo '<td>&nbsp;</td>';
+				if($status == 'Active')
+				{
+					echo '<td>&nbsp;</td>';
+					echo '<td><a href="/?p=manage&op=stop_module&id='.$module_id.'"><img src="img/manage/stop.png" height="30" width="30"></a></td>';
+					echo '<td>&nbsp;</td>';
+					echo '<td><a href="/?p=manage&op=drop_module&id='.$module_id.'"><img src="img/manage/delete.png" height="30" width="30"></a></td>';
+				}
+				elseif($status == 'In Active')
+				{
+					echo '<td><a href="/?p=manage&op=start_module&id='.$module_id.'"><img src="img/manage/plus.png" height="30" width="30"></a></td>';
+					echo '<td>&nbsp;</td>';
+					echo '<td>&nbsp;</td>';
+					echo '<td><a href="/?p=manage&op=drop_module&id='.$module_id.'"><img src="img/manage/delete.png" height="30" width="30"></a></td>';
+				}
+				else
+				{
+					echo '<td><a href="/?p=manage&op=start_module&id='.$module_id.'"><img src="img/manage/plus.png" height="30" width="30"></a></td>';
+					echo '<td>&nbsp;</td>';
+					echo '<td><a href="/?p=manage&op=stop_module&id='.$module_id.'"><img src="img/manage/stop.png" height="30" width="30"></a></td>';
+					echo '<td>&nbsp;</td>';
+					echo '<td><a href="/?p=manage&op=drop_module&id='.$module_id.'"><img src="img/manage/delete.png" height="30" width="30"></a></td>';
+				}
+				echo '</tr>';
+			}
+			echo '</table>';
+			echo '<hr>';
+			if(isset($_POST['submit']))
+			{
+				$mod = $db->prep_data($_POST['available']);
+				//$mod_link = ucfirst($mod);
+				$modName = $db->prep_data(ucfirst($mod));
+				$query = "INSERT INTO modules (module_name, module_link, module_type, active) VALUES ('$mod', '$modName', '0', '1')";
+				$result = $db->query($query);
+				if(!$result)
+				{
+					echo mysqli_error($db);
+				}
+				else
+				{
+					$core->redirect_to("/?p=manage&op=modules");
+				}
+				
+			}
+			// Add Modules
+			echo '<h3>Add a Module</h3>';
+			echo '<form action="/?p=manage&op=modules" method="post">';
+			echo '<select name="available">';
+			$dir = "modules";
+			$handle = opendir($dir);
+			while($name = readdir($handle)) {
+				if(is_dir("$dir/$name")) {
+					if($name != '.' && $name != '..' && $name != 'manage' && $name != 'account' && $name != 'error' && $name != 'example_module') {
+						echo '<option value="'.$name.'">'.$name.'</option>';
+					}
+				}
+
+			}
+			closedir($handle);
+			echo '</select>';
+			echo '&nbsp;<em>Choose the Module.</em>';
+			echo '</p>';
+			echo '<p><em><strong>NOTE:</strong> It must be up loaded to modules.</em></p>';
+			echo '<p><em>Please ensure you upload your admin image to the root img/manage folder, it must be in png format and named the same as your module.</em></p>';
+			echo '<input type="submit" name="submit" value="Add Module">';
+			echo '</form>';
+		}
+		
+		function drop_module()
+		{
+			$id = $_GET['id'];
+			$db = new database\db;
+			$core = new site\core;
+			$query = "DELETE FROM modules WHERE id = '$id'";
+			$result = $db->query($query);
+			$core->redirect_to("/?p=manage&op=modules");
+		}
+		
+		function stop_module()
+		{
+			$id = $_GET['id'];
+			$db = new database\db;
+			$core = new site\core;
+			$query = "UPDATE modules SET active = '0' WHERE id = '$id'";
+			$result = $db->query($query);
+			if(!$result)
+			{
+				echo mysqli_error($db);
+			}
+			else
+			{
+				$core->redirect_to("/?p=manage&op=modules");
+			}
+		}
+		
+		function start_module()
+		{
+			$id = $_GET['id'];
+			$db = new database\db;
+			$core = new site\core;
+			$query = "UPDATE modules SET active = '1' WHERE id = '$id'";
+			$result = $db->query($query);
+			if(!$result)
+			{
+				echo mysqli_error($db);
+			}
+			else
+			{
+				$core->redirect_to("/?p=manage&op=modules");
+			}
+		}
+		
+		function blogs()
+		{
+			$db = new database\db;
+			$core = new site\core;
+			echo '<p><small><a href="/" hreflang="en">Home</a> >> <a href="/manage">Site Management</a> >> Blogs</small></p>';
+			echo '<h3>Blogs</h3>';
+			echo '<table border="0" cellpadding="3" cellspacing="3" width="100%">';
+			echo '<tr>';
+			echo '<td><strong>Title</strong></td>';
+			echo '<td>&nbsp;</td>';
+			echo '<td><strong>Author</strong></td>';
+			echo '<td>&nbsp;</td>';
+			echo '<td><strong>View</strong></td>';
+			echo '<td>&nbsp;</td>';
+			echo '<td><strong>Edit</strong></td>';
+			echo '<td>&nbsp;</td>';
+			echo '<td><strong>Delete</strong></td>';
+			echo '</tr>';
+			$query = "SELECT * FROM blogs ORDER BY blog_date ASC";
+			$result = $db->query($query);
+			while($row = $db->fetch_assoc($result))
+			{	$id = $row['id'];
+				echo '<tr>';
+				echo '<td>'.$row['title'].'</td>';
+				echo '<td>&nbsp;</td>';
+				echo '<td>'.$row['author'].'</td>';
+				echo '<td>&nbsp;</td>';
+				echo '<td><img src="/img/manage/view.png" height="30" width="30"></td>';
+				echo '<td>&nbsp;</td>';
+				echo '<td><a href="/?p=manage&op=edit_blog&id='.$id.'" hreflang="en"><img src="/img/manage/edit.jpg" height="30" width="30"></a></td>';
+				echo '<td>&nbsp;</td>';
+				echo '<td><a href="/?p=manage&op=drop_blog&id='.$id.'" hreflang="en"><img src="/img/manage/delete.png" height="30" width="30"></a></td>';
+				echo '</tr>';
+			}
+			echo '</table>';
+			echo '<br>';
+			echo '<hr>';
+			echo '<br>';
+			if(isset($_POST['add']))
+			{
+				$title = $db->prep_data($_POST['title']);
+				$intro = $db->prep_data($_POST['intro']);
+				$content = $db->prep_data($_POST['contents']);
+				$author = $_SESSION['username'];
+				$category = $db->prep_data($_POST['category']);
+				$query = "INSERT INTO blogs (title, intro, content, author, blog_date, category) VALUES ('$title', '$intro', '$content', '$author', NOW(), '$category')";
+				$result = $db->query($query);
+				if($result)
+				{
+					$core->redirect_to("/?p=manage&op=blogs");
+				}
+			}
+			else
+			{
+				echo '<form action="/?p=manage&op=blogs" method="POST">';
+				echo '<legend><strong>Add a Blog</strong></legend>';
+				echo '<table border="0" cellpadding="3" cellspacing="3" width="100%">';
+				echo '<tr>';
+				echo '<td><label for="title">Title:</label></td>';
+				echo '<td>&nbsp</td>';
+				echo '<td><input id="title" type="text" name="title" placeholder="Your Blog title">';
+				echo '</tr>';
+				echo '<tr>';
+				echo '<td valign="top"><label for="intro">Inroduction:</label></td>';
+				echo '<td>&nbsp</td>';
+				echo '<td><textarea rows="5" cols="30" id="intro" name="intro">The Introduction to your Blog</textarea>';
+				echo '</tr>';
+				echo '<tr>';
+				echo '<td valign="top"><label for="contents">Your Blog:</label></td>';
+				echo '<td>&nbsp</td>';
+				echo '<td><textarea rows="10" cols="30" id="contents" name="contents">The Contents of your Blog go here minus your introduction.</textarea>';
+				echo '</tr>';
+				echo '<tr>';
+				echo '<td><label for="category">Category:</label></td>';
+				echo '<td>&nbsp</td>';
+				echo '<td><input id="category" type="text" name="category" placeholder="Your Blog\'s Category">';
+				echo '</tr>';
+				echo '<tr>';
+				echo '<td>&nbsp;</td>';
+				echo '<td>&nbsp</td>';
+				echo '<td><br><input type="submit" name="add" value="Add Blog">';
+				echo '</tr>';
+				echo '</table>';
+				echo '</form>';
+			}
+		}
+		
+		function edit_blog()
+		{
+			echo '<p><small><a href="/" hreflang="en">Home</a> >> <a href="/manage">Site Management</a> >> <a href="/?p=manage&op=blogs">Blogs</a> >> Edit a Blog</small></p>';
+			$id = $_GET['id'];
+			$user = $_SESSION['username'];
+			$db = new database\db;
+			$core = new site\core;
 			
-		// Core Sttings
-		case 'settings':
-			settings();
-			break;
-			
-		// Main
-		default:
-		   manage();
-		   break;
+			if(isset($_POST['update']))
+			{
+				$title = $db->prep_data($_POST['title']);
+				$intro = $db->prep_data($_POST['intro']);
+				$content = $db->prep_data($_POST['content']);
+				$category = $db->prep_data($_POST['category']);
+				
+				$query = "UPDATE blogs SET title = '$title', intro = '$intro', content = '$content', category = '$category' WHERE id = '$id'";
+				$result = $db->query($query);
+				if($result)
+				{
+					$core->redirect_to("/?p=manage&op=blogs");
+				}
+				else
+				{
+					echo mysqli_error($db);
+				}
+			}
+			else
+			{
+				$query = "SELECT * FROM blogs WHERE id = '$id'";
+				$result = $db->query($query);
+				$row = $db->fetch_assoc($result);
+				echo '<form action="/?p=manage&op=edit_blog&id='.$id.'" method="POST">';
+				echo '<h4>Hello '.$user.', your are editing, '.$row['title'].'</h4>';
+				echo '<table border="0" cellpadding="3" cellspacing="3" width="100%">';
+				echo '<tr>';
+				echo '<td><label for="title">Title:</label></td>';
+				echo '<td>&nbsp;</td>';
+				echo '<td><input id="title" type="text" name="title" value="'.$row['title'].'"></td>';
+				echo '</tr>';
+				echo '<tr>';
+				echo '<td valign="top"><label for="intro">Introduction:</label></td>';
+				echo '<td>&nbsp;</td>';
+				echo '<td><textarea rows="10" cols="30" id="intro" name="intro">'.$row['intro'].'</textarea></td>';
+				echo '</tr>';
+				echo '<tr>';
+				echo '<td valign="top"><label for="content">The Content:</label></td>';
+				echo '<td>&nbsp;</td>';
+				echo '<td><textarea rows="10" cols="30" id="content" name="content">'.$row['content'].'</textarea></td>';
+				echo '</tr>';
+				echo '<tr>';
+				echo '<td><label for="category">Category:</label></td>';
+				echo '<td>&nbsp;</td>';
+				echo '<td><input id="category" type="text" name="category" value="'.$row['category'].'"></td>';
+				echo '</tr>';
+				echo '<tr>';
+				echo '<td>&nbsp;</td>';
+				echo '<td><br><input type="submit" name="update" value="Update Blog"></td>';
+				echo '<td>&nbsp;</td>';
+				echo '</tr>';
+				echo '</table>';
+				echo '</form>';
+			}
+		}
+		
+		function drop_blog()
+		{
+			$id = $_GET['id'];
+			$db = new database\db;
+			$core = new site\core;
+			$query = "DELETE FROM blogs WHERE id = '$id'";
+			$result = $db->query($query);
+			if($result)
+			{
+				$core->redirect_to("/?p=manage&op=blogs");
+			}
+		}
+		
+		function version()
+		{
+			echo '<p><small><a href="/" hreflang="en">Home</a> >> <a href="/manage">Site Management</a> >> Version</small></p>';
+			echo '<h3>Version</h3>';
+			echo '<p>If there is an updated version of the microCMS, it will be shown here.</p>';
+			$core = new site\core;
+			$version = $core->check_version();
+			if(!empty($version)) echo '<div class="accept">'.$version.'</div>';
+		}
+		
+		/*
+		 * Switch
+		 * Allows function to be used
+		 * $d is derived from the Function operatives
+		 */
+		switch($d) {
+			// seo
+			case 'seo':
+					seo();
+					break;
+					
+			// blogs
+			case 'blogs':
+					blogs();
+					break;
+			case 'drop_blog':
+					drop_blog();
+					break;
+			case 'edit_blog':
+					edit_blog();
+					break;
+					
+			// modules
+			case 'modules':
+					modules();
+					break;
+			case 'stop_module':
+					stop_module();
+					break;
+			case 'start_module':
+					start_module();
+					break;
+			case 'drop_module':
+					drop_module();
+					break;
+					
+			// version
+			case 'version':
+					version();
+					break;
+					
+			// Main
+			default:
+				   all();
+				   break;
+		}
+		
+		
+		echo '</div>';
 	}
 }
 ?>
