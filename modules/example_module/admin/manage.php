@@ -24,10 +24,10 @@ else
 		$d = NULL;
 	}
 	
-	function module_name() // change module_name
+	function module_name_manage() // change module_name
 	{
-		echo '<p><small><a href="/" hreflang="en">Home</a> >> Module Name</small></p>'; // change Module Name
-	echo '<h3>Module Name</h3>';
+		echo '<p><small><a href="/manage" hreflang="en">Manage</a> >> Module Name</small></p>'; //change Module Name
+		echo '<h3>Module Name</h3>'; // change Module Name
 	}
 	
 	function add()
@@ -68,7 +68,7 @@ else
 				
 		// Main
 		default:
-			   module_name(); // change this
+			   module_name_manage(); // change module_name
 			   break;
 	}
 	
