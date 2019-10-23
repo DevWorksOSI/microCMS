@@ -12,8 +12,9 @@ else
 	}
 	else
 	{
-		echo '<div class="main">';
-		
+		echo '<div class="container">';
+		error_reporting(E_ALL);
+		ini_set('display_errors', 1);
 		/*
 		* Function operatives
 		* Set the operation variable for the switch
@@ -39,22 +40,22 @@ else
 			echo '<div id="adminmenu">';
 			echo '<h3>Non Core Modules</h3>';
 			echo '<ul>';
-			$query = "SELECT * FROM modules WHERE module_type = 1 && active = 1";
+			$query = "SELECT * FROM modules WHERE module_type = 1 && active = 1 && core = 0";
 			$result = $db->query($query);
 			while($row = $db->fetch_assoc($result))
 			{
 				$module_name = $row['module_name'];
 				$module_link = $row['module_link'];
-				echo '<li><a href="/?p=manage&op='.$module_name.'"><img src="img/manage/'.$module_name.'.png"><br>'.$module_link.'</a></li>';
+				echo '<li><a href="/?p=manage&op='.$module_link.'"><img src="img/manage/'.$module_link.'.png" width="40" width="40"><br>'.$module_name.'</a></li>';
 			}
 			echo '</ul>';
 			echo '<hr>';
 			echo '<h3>Core Modules</h3>';
 			echo '<ul>';
-			echo '<li><a href="/?p=manage&op=blogs"><img src="img/manage/blogs.png" height="40"><br>Blogs</a></li>';
-			echo '<li><a href="/?p=manage&op=modules"><img src="img/manage/modules.png" height="40"><br>Modules</a></li>';
-			echo '<li><a href="/?p=manage&op=seo"><img src="img/manage/seo.png" width="40"><br>Settings</a></li>';
-			echo '<li><a href="/?p=manage&op=version"><img src="img/manage/version.png" width="40"><br>Update</a></li>';
+			echo '<li><a href="/?p=manage&op=blogs"><img src="img/manage/blogs.png" height="40" width="40"><br>Blogs</a></li>';
+			echo '<li><a href="/?p=manage&op=modules"><img src="img/manage/modules.png" height="40" width="40"><br>Modules</a></li>';
+			echo '<li><a href="/?p=manage&op=seo"><img src="img/manage/seo.png" width="40" width="40"><br>Settings</a></li>';
+			echo '<li><a href="/?p=manage&op=version"><img src="img/manage/version.png" width="40" width="40"><br>Update</a></li>';
 			echo '</ul>';
 			echo '<br>';
 			echo '</div>';
@@ -128,10 +129,10 @@ else
 				// We need to change this to a select
 				//echo '<td><input id="site_logo" name="site_logo" type="text" required value="'.$row['site_logo'].'"></td>';
 				echo '<td><select name="site_logo" id="site_logo">';
-				$dirPath = dir('img');
+				$dirPath = dir('img/assets');
 				while (($file = $dirPath->read()) !== false)
 				{
-					if($file != '.' && $file != '..' && $file != '.ico')
+					if($file != '.' && $file != '..' && $file != '.ico' && $file != '.php')
 					{
 						echo "<option value=\"" . trim($file) . "\">" . $file . "\n";
 					}
@@ -349,7 +350,7 @@ else
 			$handle = opendir($dir);
 			while($name = readdir($handle)) {
 				if(is_dir("$dir/$name")) {
-					if($name != '.' && $name != '..' && $name != 'manage' && $name != 'account' && $name != 'error' && $name != 'example_module') {
+					if($name != '.' && $name != '..' && $name != 'manage' && $name != 'account' && $name != 'error' && $name != 'example_module' && $name != 'blogs') {
 						echo '<option value="'.$name.'">'.$name.'</option>';
 					}
 				}
@@ -431,12 +432,13 @@ else
 			$result = $db->query($query);
 			while($row = $db->fetch_assoc($result))
 			{	$id = $row['id'];
+				$slug = $row['slug'];
 				echo '<tr>';
 				echo '<td>'.$row['title'].'</td>';
 				echo '<td>&nbsp;</td>';
 				echo '<td>'.$row['author'].'</td>';
 				echo '<td>&nbsp;</td>';
-				echo '<td><img src="/img/manage/view.png" height="30" width="30"></td>';
+				echo '<td><a href="/blog/'.$slug.'"><img src="/img/manage/view.png" height="30" width="30"></a></td>';
 				echo '<td>&nbsp;</td>';
 				echo '<td><a href="/?p=manage&op=edit_blog&id='.$id.'" hreflang="en"><img src="/img/manage/edit.jpg" height="30" width="30"></a></td>';
 				echo '<td>&nbsp;</td>';
@@ -450,15 +452,38 @@ else
 			if(isset($_POST['add']))
 			{
 				$title = $db->prep_data($_POST['title']);
+				$slug = $core->slugify($title);
 				$intro = $db->prep_data($_POST['intro']);
 				$content = $db->prep_data($_POST['contents']);
 				$author = $_SESSION['username'];
 				$category = $db->prep_data($_POST['category']);
-				$query = "INSERT INTO blogs (title, intro, content, author, blog_date, category) VALUES ('$title', '$intro', '$content', '$author', NOW(), '$category')";
+				$allow_comments = $_POST['allow_comments'];
+				$query = "INSERT INTO blogs (title, intro, content, author, blog_date, category, slug, views, loves, allow_comments) VALUES ('$title', '$intro', '$content', '$author', NOW(), '$category', '$slug', '0', '0', '$allow_comments')";
 				$result = $db->query($query);
-				if($result)
+				if(!$result)
 				{
-					$core->redirect_to("/?p=manage&op=blogs");
+					echo mysqli_error($db);
+				}
+				else
+				{
+					$ht_query = "SELECT * FROM blogs WHERE title = '$title'";
+						$ht = $db->query($ht_query);
+						if($ht)
+						{
+							$row = $db->fetch_assoc($ht);
+							$blog_id = $row['id'];
+							
+							// Write to htaccess
+							$htaccess = fopen("./.htaccess", "a") or die("Unable to open file!");
+							$txt = "\nRewriteRule ^blog/$slug /?p=blogs&op=read&id=$blog_id [L]";
+							fwrite($htaccess, $txt);
+							fclose($htaccess);
+							$core->redirect_to("/?p=manage&op=blogs");
+						}
+						else
+						{
+							echo mysqli_error($db);
+						}
 				}
 			}
 			else
@@ -479,17 +504,22 @@ else
 				echo '<tr>';
 				echo '<td valign="top"><label for="contents">Your Blog:</label></td>';
 				echo '<td>&nbsp</td>';
-				echo '<td><textarea rows="10" cols="30" id="contents" name="contents">The Contents of your Blog go here minus your introduction.</textarea>';
+				echo '<td><textarea rows="10" cols="30" id="contents" name="contents">The Contents of your Blog go here minus your introduction.</textarea></td>';
 				echo '</tr>';
 				echo '<tr>';
 				echo '<td><label for="category">Category:</label></td>';
 				echo '<td>&nbsp</td>';
-				echo '<td><input id="category" type="text" name="category" placeholder="Your Blog\'s Category">';
+				echo '<td><input id="category" type="text" name="category" placeholder="Your Blog\'s Category"></td>';
+				echo '</tr>';
+				echo '<tr>';
+				echo '<td><label for="allow_comments">Allow Comments:</label></td>';
+				echo '<td>&nbsp</td>';
+				echo '<td><select name="allow_comments" id="allow_comments"><option values="1">Yes</option><option value="0">No</option></select></td>';
 				echo '</tr>';
 				echo '<tr>';
 				echo '<td>&nbsp;</td>';
 				echo '<td>&nbsp</td>';
-				echo '<td><br><input type="submit" name="add" value="Add Blog">';
+				echo '<td><br><input type="submit" id="add" name="add" value="Add Blog">';
 				echo '</tr>';
 				echo '</table>';
 				echo '</form>';
@@ -510,8 +540,9 @@ else
 				$intro = $db->prep_data($_POST['intro']);
 				$content = $db->prep_data($_POST['content']);
 				$category = $db->prep_data($_POST['category']);
+				$allow_comments = $_POST['allow_comments'];
 				
-				$query = "UPDATE blogs SET title = '$title', intro = '$intro', content = '$content', category = '$category' WHERE id = '$id'";
+				$query = "UPDATE blogs SET title = '$title', intro = '$intro', content = '$content', category = '$category', allow_comments = '$allow_comments' WHERE id = '$id'";
 				$result = $db->query($query);
 				if($result)
 				{
@@ -551,6 +582,11 @@ else
 				echo '<td><input id="category" type="text" name="category" value="'.$row['category'].'"></td>';
 				echo '</tr>';
 				echo '<tr>';
+				echo '<td><label for="allow_comments">Allow Comments:</label></td>';
+				echo '<td>&nbsp;</td>';
+				echo '<td><select name="allow_comments" id="allow_comments"><option value="1">Yes</option><option values="0">No</option></select></td>';
+				echo '</tr>';
+				echo '<tr>';
 				echo '<td>&nbsp;</td>';
 				echo '<td><br><input type="submit" name="update" value="Update Blog"></td>';
 				echo '<td>&nbsp;</td>';
@@ -584,53 +620,76 @@ else
 		}
 		
 		/*
-		 * Switch
-		 * Allows function to be used
-		 * $d is derived from the Function operatives
+		 * Dynamic Switch
+		 * Core methods are built in
+		 * Relies on module status and type
 		 */
-		switch($d) {
-			// seo
-			case 'seo':
-					seo();
+		$db = new database\db;
+		 $query = "SELECT * FROM modules WHERE module_type = 1 && active = 1";
+		 $result = $db->query($query);
+		 if($result)
+		 {
+			 $finished = false;
+			 while($row = mysqli_fetch_assoc($result))
+			 {
+				$module = $row['module_link'];
+				if ($d === $module)
+				{
+					include 'modules/'.$module.'/admin/manage.php';
+					$finished = true;
 					break;
-					
-			// blogs
-			case 'blogs':
-					blogs();
-					break;
-			case 'drop_blog':
-					drop_blog();
-					break;
-			case 'edit_blog':
-					edit_blog();
-					break;
-					
-			// modules
-			case 'modules':
+				}
+				if ($d === 'modules') {
 					modules();
+					$finished = true;
 					break;
-			case 'stop_module':
-					stop_module();
-					break;
-			case 'start_module':
+				}
+				if ($d === 'start_module') {
 					start_module();
+					$finished = true;
 					break;
-			case 'drop_module':
+				}
+				if ($d === 'stop_module') {
+					stop_module();
+					$finished = true;
+					break;
+				}
+				if ($d === 'drop_module') {
 					drop_module();
+					$finished = true;
 					break;
-					
-			// version
-			case 'version':
+				}
+				if ($d === 'seo') {
+					seo();
+					$finished = true;
+					break;
+				}
+				if ($d === 'blogs') {
+					blogs();
+					$finished = true;
+					break;
+				}
+				if ($d === 'drop_blog') {
+					drop_blog();
+					$finished = true;
+					break;
+				}
+				if ($d === 'edit_blog') {
+					edit_blog();
+					$finished = true;
+					break;
+				}
+				if ($d === 'version') {
 					version();
+					$finished = true;
 					break;
-					
-			// Main
-			default:
-				   all();
-				   break;
-		}
-		
-		
+				}
+			 }
+			 if (!$finished)
+			 {
+				all();
+			 }
+		 }
 		echo '</div>';
 	}
 }

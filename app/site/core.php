@@ -142,7 +142,7 @@ class core
 		$tail = $row['tail'];
 		$local_version = ''.$major.'.'.$minor.'.'.$increment.'.'.$tail.'';
 
-		$remote_version = file_get_contents("https://www.devworksosi.tech/version.txt");
+		$remote_version = file_get_contents("https://www.devworksosi.tech/version.php");
 
 		// If remote and local do not match
 		if ($local_version !== $remote_version)
