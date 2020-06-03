@@ -17,7 +17,7 @@ Same as the Micro-CMS, small footprint, easy to install, fast load, class based,
 Please see <a href="docs/bug_report.md">this</a> then use the <a href="https://github.com/DevWorksOSI/microCMS/issues">Issue Tracker</a> for any issues that warrent attention
 
 ### Contributing
-Please see <a href="docs/CONTRIBUTING.md">this</a>
+Please see <a href="docs/CODE OF CONDUCT.md">this</a>
 
 ## Changelog
 <a href="docs/CHANGELOG.md">This</a> file should always be checked.
