@@ -2,9 +2,9 @@ Options -Indexes
 
 RewriteEngine On
 RewriteBase /
-RewriteCond %{HTTP_HOST} ^microcms.dwosi.us [NC]
+RewriteCond %{HTTP_HOST} ^%{HTTP_HOST}%{REQUEST_URI [NC]
 
-RewriteRule ^(.*)$ http://microcms.dwosi.us/$1 [L,R=301,NC]
+RewriteRule ^(.*)$ http://%{HTTP_HOST}%{REQUEST_URI/$1 [L,R=301,NC]
 # https
 #RewriteCond %{HTTPS} off
 #RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
