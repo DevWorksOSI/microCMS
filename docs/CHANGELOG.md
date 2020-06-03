@@ -1,5 +1,4 @@
 # CHANGELOG
-Rework with Classes
 
 ## CURRENT VERSION
 - 05FEB20 1930 UTC - Added Blog Class
