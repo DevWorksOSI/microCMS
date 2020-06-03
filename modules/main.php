@@ -21,7 +21,15 @@ else
 	echo '<h3>'.$welcome.'</h3>';
 	echo '</div>';
 	echo '<div class="main">';
+	echo '<p>This is the official Home of the Devworks OSI microCMS.</p>';
 	echo '<p><strong>microCMS Version 2.0</strong></p>';
+	echo '</div>';
+	echo '<div class="main">';
+	echo '<p>The official public release of the microCMS will be available to download soon, once we finish up writing the remainder of the Management Interface.</p>';
+	echo '<p><strong>Target Date:</strong> Not Set.</p>';
+	echo '</div>';
+	echo '<div class="main">';
+	echo '<p>This site uses a custom version of the microCMS.</p>';
 	echo '</div>';
 	echo '</main>';
 	echo '</section>';

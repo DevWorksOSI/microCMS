@@ -142,12 +142,12 @@ class core
 		$tail = $row['tail'];
 		$local_version = ''.$major.'.'.$minor.'.'.$increment.'.'.$tail.'';
 
-		$remote_version = file_get_contents("https://www.devworksosi.tech/version.php");
+		$remote_version = file_get_contents("http://microcms.dwosi.us/version.php");
 
 		// If remote and local do not match
 		if ($local_version !== $remote_version)
 		{
-			$this->msg = '<strong>Your Version - '.$local_version.', is OUT OF DATE, v.'.$remote_version.' is available for <a href="https://www..devworksosi.tech/" target="_blank">download</strong></a>';
+			$this->msg = '<strong>Your Version - '.$local_version.', is OUT OF DATE, v.'.$remote_version.' is available for <a href="http://microcms.dwosi.usd/" target="_blank">download</strong></a>';
 		}
 		if ($local_version === $remote_version)
 		{

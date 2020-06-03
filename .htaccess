@@ -2,19 +2,19 @@ Options -Indexes
 
 RewriteEngine On
 RewriteBase /
-RewriteCond %{HTTP_HOST} ^devworksosi.tech [NC]
+RewriteCond %{HTTP_HOST} ^microcms.dwosi.us [NC]
 
-RewriteRule ^(.*)$ http://www.devworksosi.tech/$1 [L,R=301,NC]
+RewriteRule ^(.*)$ http://microcms.dwosi.us/$1 [L,R=301,NC]
 # https
-RewriteCond %{HTTPS} off
-RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+#RewriteCond %{HTTPS} off
+#RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
   
 # Logging PHP Errors
 php_flag log_errors on 
-php_value error_log logs/php_error.log
+php_value error_log ../../logs/microcms/php_error.log
 
 # Site Errors
-
+RewriteRule ^error /?p=error
 # Bad Request
 ErrorDocument 400 /error
 
@@ -39,12 +39,10 @@ ErrorDocument 500 /error
 # Service Unavailable
 ErrorDocument 503 /error
 
-RewriteRule ^error /?p=error
-
 # User
-RewriteRule ^signup /?p=signup [L]
-RewriteRule ^login /?p=login [L]
-RewriteRule ^logout /?p=logout [L]
+RewriteRule ^signup /?p=signup
+RewriteRule ^login /?p=login
+RewriteRule ^logout /?p=logout
 
 # Site Management
-RewriteRule ^manage /?p=manage [L]
+RewriteRule ^manage /?p=manage

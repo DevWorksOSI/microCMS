@@ -6,9 +6,9 @@
  * @ Database
  * @ Host
 */
-define('DBUSER', '');
-define('DBPASS', '');
-define('DBNAME', '');
+define('DBUSER', 'u343006961_mcms');
+define('DBPASS', 'Ru$197303');
+define('DBNAME', 'u343006961_mcms');
 define('DBHOST', 'localhost');
 
 $conn = mysqli_connect(DBHOST,DBUSER,DBPASS,DBNAME);
