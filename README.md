@@ -5,7 +5,8 @@ Rework with Classes
 This is in Development and <strong>NOT</strong> production ready. Contributors are welcome.
 
 ### WHY
-Because the Micro-CMS is old and outdated, it's in need of a revamp, project is about 30% complete
+Because the Micro-CMS is old and outdated, it's in need of a revamp, project is about 30% complete.
+Wordpress is too big, too bulky and downright unsecure in many ways, the microCMS is not a revamped version of WordPress, it is rather a small version that can act like wordpress without all of the uneeded BS.
 
 ### WHEN
 This revamp started in March of 2019
