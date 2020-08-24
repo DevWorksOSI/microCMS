@@ -127,6 +127,14 @@ class core
 		}
 		return false;
 	}
+	function get_status()
+	{
+	   /*
+	    * Templated function to interact with the DW OSI REST API
+	    * To get the sites current status and display it in the 
+	    * admin dashboard.
+	   */
+	}
 	
 	public function check_version()
 	{
@@ -148,6 +156,7 @@ class core
 		if ($local_version !== $remote_version)
 		{
 			$this->msg = '<strong>Your Version - '.$local_version.', is OUT OF DATE, v.'.$remote_version.' is available for <a href="http://microcms.dwosi.usd/" target="_blank">download</strong></a>';
+			// Can we download and extract updates here?
 		}
 		if ($local_version === $remote_version)
 		{
