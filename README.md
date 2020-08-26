@@ -19,7 +19,8 @@ Please see <a href="docs/bug_report.md">this</a> then use the <a href="https://g
 
 ### Contributing
 Please see <a href="docs/CODE OF CONDUCT.md">this</a>
- - Then Check out our <a href="docs/ToDo.md">To Do List</a>
+ - Then Check out our <a href="docs/ToDo.md">To Do List</a>.
+ - and our <a href="docs/Get_Involved.md">Getting Involved</a> Information.
 
 ## Changelog
 <a href="docs/CHANGELOG.md">This</a> file should always be checked.
