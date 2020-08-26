@@ -7,6 +7,8 @@
   - Pages
   - Symlinks
   - Licensing (For Any version other than Community)
+  - Read Token Data from theme css file
+  - Read Token Data from plugin base file
  
 2. Create Pages Controller Class
  - 2.1. Add Pages Functionality (Public/Admin)
