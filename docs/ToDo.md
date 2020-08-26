@@ -9,16 +9,16 @@
   - Licensing (For Any version other than Community)
  
 2. Create Pages Controller Class
-2.1. Add Pages Functionality (Public/Admin)
+ - 2.1. Add Pages Functionality (Public/Admin)
 
 3. Create Blogs Controller Class
-3.1. Add symlinks for blogs
+ - 3.1. Add symlinks for blogs
 
 5. Create Themes Controller Class
-5.1. Add Symlinks for themes
+ - 5.1. Add Symlinks for themes
 
 6. Create Plugins Controller Class
-6.1. Add Symlinks for plugins
+ - 6.1. Add Symlinks for plugins
 
 7. Create Update Controller Class
 
