@@ -1,9 +1,10 @@
 # Developers
-Please Fork
+- Please Fork
 - Make your changes/additions
 - Test, test and test again
+- Ensure that all bugs and potential bugs are handled
 - Push to your forked repository
-- Discuss potential Pull request with @Keldo or @Beckie
+- Discuss potential Pull request with <a href="https://github.com/Keldo"><strong>@Keldo</strong></a> or <a href="https://github.com/MsB101"><strong>@Beckie</strong></a>
 - If approved, do a Pull Request, ensure that you comment who approved your pull and what was changed.
 
 ## Pull Comment Requirements
