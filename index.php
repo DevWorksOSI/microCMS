@@ -4,7 +4,8 @@ if(isset($_SESSION['admin']))
 {
 	$admin = $_SESSION['admin'];
 }
-require_once('app/autoload.php');
+//require_once('mc-includes/core/site.php');
+require_once('mc-core/autoload.php');
 use site\core;
 use site\settings;
 use site\blogs;
@@ -15,21 +16,19 @@ $settings = new settings();
 $blogs = new blogs();
 
 //Function operatives
- if (isset($_GET['p']))
+ if (isset($_GET['page']))
  {
-	 $d = $_GET['p'];
+	 $d = $_GET['page'];
  } 
-// elseif (isset($_POST['p']))
-// { // Forms
-	// $d = $_POST['p'];
-// }
+elseif (isset($_POST['page']))
+{ // Forms
+	 $d = $_POST['page'];
+}
  else
  {
 	 $d = NULL;
  }
 
-$bing_code = $settings->bing_verification;
-$google_code = $settings->google_verification;
 $base_url = $settings->base_url;
 $site_name = $settings->site_name;
 $description = $settings->description;
@@ -39,80 +38,40 @@ $facebook = $settings->facebook;
 $twitter = $settings->twitter;
 $youtube = $settings->youtube;
 $instagram = $settings->instagram;
-$site_logo = $settings->site_logo;
+$timezone = $settings->time_zone;
 // Error Checking
-$core->check_errors(1);
-
-if (isset($_REQUEST['_SESSION']))
+$core->check_errors(true);
+$query = "SELECT * FROM mc_plugins WHERE plugin_status = 1";
+   $result = $db->query($query);
+   $finished = false;
+   
+   while($row = mysqli_fetch_assoc($result))
+   {
+      $plugin = $row['plugin_slug'];
+   }
+switch($d)
 {
-	die("Get lost Muppet!");
+   case ''.$plugin.'':
+      $content = 'mc-content/plugins/'.$plugin.'/'.$plugin.'.php';
+      break;
+      
+   case 'error':
+	$content = 'mc-includes/core_plugins/error/error.php';
+	break;
+	
+   case 'login':
+	$content = 'mc-includes/core_plugins/account/login.php';
+	break;
+	
+   default:
+	$content = 'mc-content/themes/'.$theme.'/front_page.php';
+	break;
+
 }
 
  // Include the theme's Header
-include 'themes/'.$theme.'/header.php';
-$query = "SELECT * FROM modules WHERE active = 1";
-$result = $db->query($query);
-$finished = false;
-while($row = mysqli_fetch_assoc($result))
-{
-    $module = $row['module_link'];
-	$active = $row['active'];
-	
-    if ($d === $module)
-	{
-        include 'modules/'.$module.'/main.php';
-        $finished = true;
-        break;
-    }
-	if ($d === 'manage')
-	{
-		include 'modules/manage/main.php';
-		$finished = true;
-		break;
-	}
-	if ($d === 'error')
-	{
-		include 'modules/error/main.php';
-		$finished = true;
-		break;
-	}
-	if ($d === 'login')
-	{
-		include 'modules/account/login.php';
-		$finished = true;
-		break;
-	}
-	if ($d === 'logout')
-	{
-		include 'modules/account/logout.php';
-		$finished = true;
-		break;
-	}
-	if ($d === 'signup')
-	{
-		include 'modules/account/signup.php';
-		$finished = true;
-		break;
-	}
-	if ($d === 'blogs')
-	{
-		include 'modules/blogs/main.php';
-		$finished = true;
-		break;
-	}
-}
-
-if (!$finished)
-{
-    include 'modules/main.php';
-}
-
-
-// Include the theme's Header
-//include 'themes/'.$theme.'/header.php';
-
-// Set the Desired Time Zone
-//date_default_timezone_set(TIMEZONE);
+include 'mc-content/themes/'.$theme.'/header.php';
+//$core->do_header();
 /*
  * Prevention Session Injection
  */
@@ -120,8 +79,14 @@ if (isset($_REQUEST['_SESSION']))
 {
 	die("Get lost Muppet!");
 }
-// Include content from each module
-//include $content;
+
+// Set the Desired Time Zone
+date_default_timezone_set($timezone);
+
+include $content;
+
+
 // Include the themes Footer
-include 'themes/'.$theme.'/footer.php';
+include 'mc-content/themes/'.$theme.'/footer.php';
+//$core->do_footer();
 ?>

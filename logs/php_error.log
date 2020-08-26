@@ -1,0 +1,33 @@
+[25-Aug-2020 04:07:11 UTC] PHP Notice:  Undefined property: database\db::$error in /home/u343006961/domains/dwosi.us/public_html/microcms/mc-includes/core/site/settings.php on line 30
+[25-Aug-2020 04:07:11 UTC] PHP Notice:  Undefined variable: mcdp in /home/u343006961/domains/dwosi.us/public_html/microcms/mc-includes/core/version/current.php on line 30
+[25-Aug-2020 04:07:11 UTC] PHP Notice:  Trying to get property 'error' of non-object in /home/u343006961/domains/dwosi.us/public_html/microcms/mc-includes/core/version/current.php on line 30
+[25-Aug-2020 04:07:11 UTC] PHP Notice:  Undefined property: site\settings::$site_url in /home/u343006961/domains/dwosi.us/public_html/microcms/index.php on line 34
+[25-Aug-2020 04:07:11 UTC] PHP Notice:  Undefined property: site\settings::$site_name in /home/u343006961/domains/dwosi.us/public_html/microcms/index.php on line 35
+[25-Aug-2020 04:07:11 UTC] PHP Notice:  Undefined property: site\settings::$description in /home/u343006961/domains/dwosi.us/public_html/microcms/index.php on line 36
+[25-Aug-2020 04:07:11 UTC] PHP Notice:  Undefined property: site\settings::$keywords in /home/u343006961/domains/dwosi.us/public_html/microcms/index.php on line 37
+[25-Aug-2020 04:07:11 UTC] PHP Notice:  Undefined property: site\settings::$facebook in /home/u343006961/domains/dwosi.us/public_html/microcms/index.php on line 39
+[25-Aug-2020 04:07:11 UTC] PHP Notice:  Undefined property: site\settings::$twitter in /home/u343006961/domains/dwosi.us/public_html/microcms/index.php on line 40
+[25-Aug-2020 04:07:11 UTC] PHP Notice:  Undefined property: site\settings::$youtube in /home/u343006961/domains/dwosi.us/public_html/microcms/index.php on line 41
+[25-Aug-2020 04:07:11 UTC] PHP Notice:  Undefined property: site\settings::$instagram in /home/u343006961/domains/dwosi.us/public_html/microcms/index.php on line 42
+[25-Aug-2020 04:07:11 UTC] PHP Notice:  Undefined property: site\settings::$time_zone in /home/u343006961/domains/dwosi.us/public_html/microcms/index.php on line 43
+[25-Aug-2020 04:07:11 UTC] PHP Notice:  Undefined property: version\current::$major in /home/u343006961/domains/dwosi.us/public_html/microcms/index.php on line 46
+[25-Aug-2020 04:07:11 UTC] PHP Notice:  Undefined property: version\current::$minor in /home/u343006961/domains/dwosi.us/public_html/microcms/index.php on line 47
+[25-Aug-2020 04:07:11 UTC] PHP Notice:  Undefined property: version\current::$increment in /home/u343006961/domains/dwosi.us/public_html/microcms/index.php on line 48
+[25-Aug-2020 04:07:11 UTC] PHP Notice:  Undefined property: version\current::$codename in /home/u343006961/domains/dwosi.us/public_html/microcms/index.php on line 49
+[25-Aug-2020 04:07:11 UTC] PHP Warning:  mysqli_fetch_assoc() expects parameter 1 to be mysqli_result, bool given in /home/u343006961/domains/dwosi.us/public_html/microcms/mc-includes/core/database/db.php on line 81
+[25-Aug-2020 04:08:39 UTC] PHP Notice:  Undefined property: database\db::$error in /home/u343006961/domains/dwosi.us/public_html/microcms/mc-includes/core/site/settings.php on line 30
+[25-Aug-2020 04:08:39 UTC] PHP Notice:  Undefined property: database\db::$error in /home/u343006961/domains/dwosi.us/public_html/microcms/mc-includes/core/version/current.php on line 30
+[25-Aug-2020 04:08:39 UTC] PHP Notice:  Undefined property: site\settings::$site_url in /home/u343006961/domains/dwosi.us/public_html/microcms/index.php on line 34
+[25-Aug-2020 04:08:39 UTC] PHP Notice:  Undefined property: site\settings::$site_name in /home/u343006961/domains/dwosi.us/public_html/microcms/index.php on line 35
+[25-Aug-2020 04:08:39 UTC] PHP Notice:  Undefined property: site\settings::$description in /home/u343006961/domains/dwosi.us/public_html/microcms/index.php on line 36
+[25-Aug-2020 04:08:39 UTC] PHP Notice:  Undefined property: site\settings::$keywords in /home/u343006961/domains/dwosi.us/public_html/microcms/index.php on line 37
+[25-Aug-2020 04:08:39 UTC] PHP Notice:  Undefined property: site\settings::$facebook in /home/u343006961/domains/dwosi.us/public_html/microcms/index.php on line 39
+[25-Aug-2020 04:08:39 UTC] PHP Notice:  Undefined property: site\settings::$twitter in /home/u343006961/domains/dwosi.us/public_html/microcms/index.php on line 40
+[25-Aug-2020 04:08:39 UTC] PHP Notice:  Undefined property: site\settings::$youtube in /home/u343006961/domains/dwosi.us/public_html/microcms/index.php on line 41
+[25-Aug-2020 04:08:39 UTC] PHP Notice:  Undefined property: site\settings::$instagram in /home/u343006961/domains/dwosi.us/public_html/microcms/index.php on line 42
+[25-Aug-2020 04:08:39 UTC] PHP Notice:  Undefined property: site\settings::$time_zone in /home/u343006961/domains/dwosi.us/public_html/microcms/index.php on line 43
+[25-Aug-2020 04:08:39 UTC] PHP Notice:  Undefined property: version\current::$major in /home/u343006961/domains/dwosi.us/public_html/microcms/index.php on line 46
+[25-Aug-2020 04:08:39 UTC] PHP Notice:  Undefined property: version\current::$minor in /home/u343006961/domains/dwosi.us/public_html/microcms/index.php on line 47
+[25-Aug-2020 04:08:39 UTC] PHP Notice:  Undefined property: version\current::$increment in /home/u343006961/domains/dwosi.us/public_html/microcms/index.php on line 48
+[25-Aug-2020 04:08:39 UTC] PHP Notice:  Undefined property: version\current::$codename in /home/u343006961/domains/dwosi.us/public_html/microcms/index.php on line 49
+[25-Aug-2020 04:08:39 UTC] PHP Warning:  mysqli_fetch_assoc() expects parameter 1 to be mysqli_result, bool given in /home/u343006961/domains/dwosi.us/public_html/microcms/mc-includes/core/database/db.php on line 81
