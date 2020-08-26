@@ -13,5 +13,12 @@ Version: 0.1.0
 */
 
 
+/*
+There should be absolutely no HTML here. Either direct code or functions
+You may even use an op/switch situation
+How you code your plugins is entirely up to you, as long as it does not interfere
+with the Core Code.
+*/
+
 // include public template
-include('mc-content/plugins/example-plugin/public/example-plugin-public.php'));
+include('mc-content/plugins/example-plugin/public/example-plugin-public.php');
