@@ -5,6 +5,20 @@ require_once('mc-config.php');
 
 class db
 {
+	/*
+	 * dbConnect
+	 * assigns variables from the sites config file (mc-config.php)
+	 * @DBHOST
+	 * @DBUSER
+	 * @DBPASS
+	 * @DBNAME
+	 *
+	 * It then attempts to connect to the mysql server
+	 * used throughout the db class
+	 * Since 1.4
+	 *
+	 * Usage: $conn -> $this->dbConnect()
+	*/
 	
 	private function dbConnect()
 	{
@@ -39,11 +53,15 @@ class db
 	
 	/*
 	 * Confirms MySQLi Queries
+	 * Since 1.4
 	 * USAGE $db->confirm_query($result);
 	*/
 	public function confirm_query($result_set)
 	{
+		// Open the connection
 		$conn = $this->dbConnect();
+		
+		// Test the results
 		if (!$result_set) 
 		{
 			die("Database query failed." . mysqli_error($conn));
@@ -54,7 +72,7 @@ class db
 	
 	/*
 	 * Does all MySQLi queries
-	 * utilizing conn from construct()
+	 * utilizing conn from dbConnect()
 	 * $string is sent from the page to this function
 	 * on the page, use: $query = "YOUR QUERY" then $db->query($query);
 	*/
@@ -74,7 +92,7 @@ class db
 	 * Does associated fetch in MySQLi
 	 * gets its $string from the page
 	 *
-	 * USAGE: $db->fetch($result);
+	 * USAGE: $db->fetch_assoc($result);
 	*/
 	public function fetch_assoc($string)
 	{
