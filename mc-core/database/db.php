@@ -17,7 +17,7 @@ class db
 	 * used throughout the db class
 	 * Since 1.4
 	 *
-	 * Usage: $conn -> $this->dbConnect()
+	 * Usage: $conn->$this->dbConnect()
 	*/
 	
 	private function dbConnect()
