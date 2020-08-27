@@ -1,7 +1,42 @@
-# CHANGELOG
+# microCMS Change Log
+All notable changes to this project will be documented in this file.
 
-## CURRENT VERSION
-- 25AUG20 1645 UTC - 1.5, Remove PHP-Sentry, not available for the Community version
-- 25AUG20 1830 UTC - 1.5, Major Codex Overhaul, code cleanup and re-focus
-- 05FEB20 1930 UTC - Added Blog Class
-- 04JAN20 0454 UTC - Added PHP-Sentry Addon Functionality
+The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
+and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
+
+## [Unreleased]
+
+## [1.5.1] - 20200827 2340 UTC - Development
+- mc-core\loader
+- Other Major Codex Changes
+
+## [1.5.1] - 20191012 0250 UTC - Development
+
+### Added
+- microcms\settings Class
+
+## [1.5.1] - 20191011 0200 UTC - Development
+
+### Added
+- Register
+- Login
+- Logout
+
+## [1.5.1] - 20191009 0150 UTC - Development
+
+### Added
+- Changed og: to twitter: for Twitter OpenGraph in Core theme header
+
+## [1.5.1] - 20191005 0000 UTC - Development
+
+### Added
+- is_ssl() function to microcms\core
+
+## [1.5.1] - 20190924 0150 UTC - Development
+
+### Added
+- IP based Security Checks
+- Sentry Security Class
+- Core Class
+- Database Class
+- Core Theme
