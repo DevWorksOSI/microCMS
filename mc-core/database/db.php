@@ -64,7 +64,7 @@ class db
 		// Test the results
 		if (!$result_set) 
 		{
-			die("Database query failed." . mysqli_error($conn));
+			die("Database query failed." . $conn->error);
 		}
 		// Close the connection
 		$this->closeConnection();

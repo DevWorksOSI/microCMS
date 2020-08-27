@@ -10,7 +10,7 @@ class blogs
 	public function getBlogs()
 	{
 		$db = new db();
-		$query = "SELECT * FROM blogs ORDER BY blog_date DESC";
+		$query = "SELECT * FROM mc_blogs ORDER BY blog_date DESC";
 		$result = $db->query($query);
 		return $result;
 	}
@@ -18,7 +18,7 @@ class blogs
 	public function last_five_blogs()
 	{
 		$db = new db();
-		$query = "SELECT * FROM blogs ORDER BY blog_date DESC LIMIT 5";
+		$query = "SELECT * FROM mc_blogs ORDER BY blog_date DESC LIMIT 5";
 		$result = $db->query($query);
 		return $result;
 	}
@@ -26,7 +26,7 @@ class blogs
 	public function popular_blogs()
 	{
 		$db = new db();
-		$query = "SELECT * FROM blogs ORDER BY loves LIMIT 5";
+		$query = "SELECT * FROM mc_blogs ORDER BY blog_loves LIMIT 5";
 		$result = $db->query($query);
 		return $result;
 	}
@@ -34,7 +34,7 @@ class blogs
 	public function getBlog($id)
 	{
 		$db = new db();
-		$query = "SELECT * FROM blogs WHERE id = '$id'";
+		$query = "SELECT * FROM mc_blogs WHERE id = '$id'";
 		$result = $db->query($query);
 		return $result;
 	}
@@ -42,7 +42,7 @@ class blogs
 	public function get_commentCount($id)
 	{
 		$db = new db();
-		$query = "SELECT count(*) as total from blog_comments WHERE blog_id = '$id'";
+		$query = "SELECT count(*) as total from mc_metadata WHERE post_id = '$id'";
 		$result = $db->query($query);
 		$data = $db->fetch_assoc($result);
 		$count = $data['total'];

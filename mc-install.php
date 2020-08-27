@@ -131,6 +131,14 @@ function step2() {
 			$dbs = "define('DBHOST', 'localhost');\n";
 			fwrite($config, $dbs);
 			
+			// Sentry/HTTPBL Using ours
+			$notes8 = "\n\n";
+			fwrite($config, $notes8);
+			$notes9 = "// Sentry/HTTPBL KEY\n";
+			fwrite($config, $notes9);
+			$notes10 = "define('httpBL_KEY','gbraupsxiodf');\n";
+			fwrite($config, $notes10);
+			
 			
 			fclose($configfile);
 			
@@ -153,7 +161,7 @@ function step3() {
 	user_firstname VARCHAR(30),
 	user_lastname VARCHAR(30),
 	user_pass VARCHAR(100) NOT NULL,
-	user_nicname VARCHAR(30) NOT NULL,
+	user_nickname VARCHAR(30) NOT NULL,
 	user_url VARCHAR(150),
 	display_name VARCHAR(30) NOT NULL,
 	user_email VARCHAR(50) NOT NULL,
@@ -250,7 +258,10 @@ function step3() {
 	blog_exerpt VARCHAR(150) NOT NULL,
 	blog_contents text,
 	blog_author VARCHAR(30),
-	blog_date DATETIME
+	blog_date DATETIME,
+	blog_views INT(1),
+	blog_loves INT(1),
+	allow_comments INT(1) 
 	)";
 	if ($conn->query($blogs) === TRUE) {
 	   echo "<p>Blogs Table Created</p>";
@@ -277,6 +288,43 @@ function step3() {
 	else
 	{
 	   echo "<p>Plugin table was not created</p>";
+	   echo "<p>Error creating table: " . $conn->error;
+	   echo "</p>";
+	}
+	
+	// Metadata Table
+	$meta = "CREATE TABLE mc_metadata (
+	id INT(6) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+	type INT(1),
+	post_date DATETIME,
+	post_id INT(1),
+	content TEXT,
+	who INT(1)
+	)";
+	if ($conn->query($meta) === TRUE) {
+	   echo "<p>Metadata Table Created</p>";
+	}
+	else
+	{
+	   echo "<p>Metadata table was not created</p>";
+	   echo "<p>Error creating table: " . $conn->error;
+	   echo "</p>";
+	}
+	
+	// Symlink Table
+	$meta = "CREATE TABLE mc_symlinks (
+	id INT(1) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+	link_type VARCHAR(50),
+	page VARCHAR(100),
+	slug VARCHAR(150),
+	link_status INT(1)
+	)";
+	if ($conn->query($meta) === TRUE) {
+	   echo "<p>Metadata Table Created</p>";
+	}
+	else
+	{
+	   echo "<p>Metadata table was not created</p>";
 	   echo "<p>Error creating table: " . $conn->error;
 	   echo "</p>";
 	}

@@ -39,20 +39,18 @@ class core
 		}
 	}
 	
-	public function activeModule($module)
+	public function sentry_active()
 	{
-		$db = new db();
-		$query = "SELECT * FROM modules WHERE module_name = '$module' && active = 1";
-		$result = $db->query($query);
-		if(empty($result))
-		{
-			return false;
-		}
-		else
-		{
-			return true;
-		}
+	  if(file_exists('mc-core/sentry/security.php'))
+	  {
+	     return true;
+	  }
+	  else
+	  {
+	     return false;
+	  }
 	}
+	
 	
 	public function is_ssl()
 	{
@@ -86,36 +84,6 @@ class core
 		}
 	}
 	
-	public function user_lookup($username)
-	{
-		$db = new db();
-		$query = "SELECT * FROM mc_users WHERE user_login = '$username'";
-		$result = $db->query($query);
-		if($result)
-		{
-			return TRUE;
-		}
-		else
-		{
-			return FALSE;
-		}
-	}
-	
-	public function email_lookup($email)
-	{
-		$db = new db();
-		$query = "SELECT * FROM mc_users WHERE user_email = '$email'";
-		$result = $db->query($query);
-		if($result)
-		{
-			return TRUE;
-		}
-		else
-		{
-			return FALSE;
-		}
-	}
-	
 	
 	public function log_timer($time)
 	{
@@ -140,6 +108,10 @@ class core
 	   */
 	}
 	
+	/*
+	 * This needs a serious update
+	 * Versioning is to be changed soon
+	*/
 	public function check_version()
 	{
 		// Data
@@ -204,31 +176,5 @@ class core
 	 }
 
 	 return "$difference $periods[$j] $tense ";
-	 }
-	 
-	 public function do_header()
-	 {
-	    $db = new db();
-	    $query = "SELECT * from mc_settings";
-	    $result = $db->query($query);
-
-	    $header = $db->fetch_assoc($result);
-	    $top = $header['site_theme'];
-	    
-	    // Include the found themes header file
-	    include 'mc-content/themes/'.$top.'/header.php';
-	 }
-	 
-	 public function do_footer()
-	 {
-	    $db = new db();
-	    $query = "SELECT * from mc_settings";
-	    $result = $db->query($query);
-
-	    $footer = $db->fetch_assoc($result);
-	    $bottom = $footer['site_theme'];
-	    
-	    // Include the found themes header file
-	    include 'mc-content/themes/'.$bottom.'/header.php';
 	 }
 }

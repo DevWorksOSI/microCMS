@@ -1,6 +1,5 @@
 <?php
 
-header('Location: /');
-exit();
+// Silence is heaven
 
 ?>
