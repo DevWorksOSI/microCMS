@@ -32,6 +32,6 @@
 
 11. Create theme view controller
 
-~~12. Create user Login and Signup - Complete
+~~12. Create user Login and Signup - Complete~~
 
 13. Create Lost Password
