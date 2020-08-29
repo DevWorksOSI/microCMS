@@ -1,7 +1,16 @@
-.example-plugin {
-	width: 900px;
-	color: #000000;
-	margin: 5px auto;
-	padding-top: 25px;
-    padding-bottom: 25px;
+#example-plugin {
+   width: 100%;
+   color: #000000;
+   padding-top: 50px;
+}
+
+.content {
+   color: #000000;
+   padding-bottom: 30px;
+   padding-top: 30px;
+}
+
+.button {
+   text-align: center;
+   margin: auto;
 }

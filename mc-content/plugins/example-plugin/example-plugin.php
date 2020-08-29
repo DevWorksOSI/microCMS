@@ -19,6 +19,10 @@ You may even use an op/switch situation
 How you code your plugins is entirely up to you, as long as it does not interfere
 with the Core Code.
 */
+public_page();
 
-// include public template
-include('mc-content/plugins/example-plugin/public/example-plugin-public.php');
+function public_page()
+{
+   // include public template
+   include('mc-content/plugins/example-plugin/public/example-plugin-public.php');
+}
