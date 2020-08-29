@@ -40,12 +40,4 @@ $plugin_version = '0.1.1';
        <p>Believe it or not, this plugin was written by a student, on day one of learning PHP :)</p>
     </div>
    </div>
-   <div class="content button">
-     <p>
-     <a href="/files/example-plugin-0.1.1.zip"><button type="button" class="btn btn-primary btn-lg">Get Example Plugin</button></a>
-     </p>
-     <p>
-     <br> <strong>MD5 Hash:</strong> 95b498eeaf53dfad1003aff02f8c2e9f
-     </p>
-   </div>
 </div>
