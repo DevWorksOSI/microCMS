@@ -14,7 +14,7 @@ Wordpress is too big, too bulky and downright unsecure in many ways, the microCM
 Ongoing and Evolving
 
 ### INTENT
-Small footprint, easy to install, fast load, class based, extendable and modularized.
+Small footprint, easy to install, fast load, class based, pluggable and themeable.
 
 ### Issues
 Please see <a href="docs/bug_report.md">this</a> then use the <a href="https://github.com/DevWorksOSI/microCMS/issues">Issue Tracker</a> for any issues that warrent attention
