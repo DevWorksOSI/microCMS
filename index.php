@@ -20,10 +20,13 @@ elseif (isset($_POST['page']))
 	 $d = NULL;
  }
 // Error Checking
-if (defined('DEBUG', 'TRUE'))
+/*
+if (defined('DEBUG'))
 {
    $core->check_errors(true);
 }
+*/
+$core->check_errors(true);
  // Include the theme's Header
 include 'mc-content/themes/'.$theme.'/header.php';
 /*
@@ -97,7 +100,7 @@ while($row = $db->fetch_assoc($result))
 		$finished = true;
 		break;
 	}
-	if ($d === 'reset-passwword')
+	if ($d === 'reset-password')
 	{
 		include 'mc-includes/core_plugins/account/reset_password.php';
 		$finished = true;
