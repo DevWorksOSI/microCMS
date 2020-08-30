@@ -6,6 +6,7 @@ if (basename($_SERVER['PHP_SELF']) == basename(__FILE__))
 else
 {
 	echo '<div class="container">';
+	echo '<div class="row">';
 	
 	/*
 	* Function operatives
@@ -68,7 +69,7 @@ else
 			$loves = $rows['blog_loves'];
 			$uts = strtotime($timestamp);
 			$ago = $core->ago($uts);
-			echo '<div class="post">';
+			echo '<div class="main">';
 			echo '<div class="date">'.$blog_date.'</div>';
 			echo '<h2>'.$rows['blog_title'].'</h2>';
 			echo '<p class="quote">'.$rows['blog_exerpt'].'</p>';
@@ -112,7 +113,7 @@ else
 		$uts = strtotime($timestamp);
 		$ago = $core->ago($uts);
 		$allow_comments = $row['allow_comments'];
-		echo '<div class="post">';
+		echo '<div class="main">';
 		echo '<div class="date">'.$blog_date.'</div>';
 		echo '<h2>'.$row['blog_title'].'</h2>';
 		echo '<p class="quote">'.$row['blog_exerpt'].'</p>';
@@ -139,16 +140,8 @@ else
 		      echo '<input type="submit" name="do_comment" value="Submit Comment">';
 		      echo '</form>';
 		   }
-		   else
-		   {
-		      echo '<h5>You Must be logged in to Comment on this Blog.</h5>';
-		   }
 		}
-		else
-		{
-		   echo '<h5>Comments have been disabled for this blog.</h5>';
-		}
-		
+
 		// Comments
 		$query = "SELECT * FROM mc_metadata WHERE post_id='$id'";
 		$result = $db->query($query);
@@ -255,6 +248,7 @@ else
 	}
 	
 	
+	echo '</div>';
 	echo '</div>';
 }
 ?>

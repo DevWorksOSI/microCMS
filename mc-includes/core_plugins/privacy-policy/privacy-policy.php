@@ -24,5 +24,5 @@ public_page();
 function public_page()
 {
    // include public template
-   include('mc-content/plugins/example-plugin/public/example-plugin-public.php');
+   include('mc-includes/core_plugins/privacy-policy/public/privacy-policy-public.php');
 }

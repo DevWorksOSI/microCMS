@@ -6,6 +6,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.5.1] - 20200829 0315 UTC - Development
+ - remove autoload
+ - add autoload to loader.php
+ - add Signup -> email to site\core
+ - add admin_email to site\settings
+ - add privacy-policy plugin to core_plugins
+ - add debug option to config
+ - fixed blogs bootstrap issue
+ - add PHPMailer to mc-includes
+ 
+
 ## [1.5.1] - 20200827 2340 UTC - Development
 - mc-core\loader
 - Other Major Codex Changes
