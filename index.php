@@ -97,13 +97,17 @@ while($row = $db->fetch_assoc($result))
 		$finished = true;
 		break;
 	}
+	if ($d === 'reset-passwword')
+	{
+		include 'mc-includes/core_plugins/account/reset_password.php';
+		$finished = true;
+		break;
+	}
 }
-
 if (!$finished)
 {
     include 'mc-content/themes/'.$theme.'/front_page.php';
 }
-
 // Include the themes Footer
 include 'mc-content/themes/'.$theme.'/footer.php';
 ?>

@@ -6,6 +6,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.5.1] - 20200830 2004 UTC - Development
+ - add parse_url to privacy-policy
+ - remove define from index
+ - add forgot password page
+
 ## [1.5.1] - 20200829 0315 UTC - Development
  - remove autoload
  - add autoload to loader.php
