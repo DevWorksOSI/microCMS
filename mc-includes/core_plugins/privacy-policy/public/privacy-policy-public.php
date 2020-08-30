@@ -12,6 +12,8 @@ Requires PHP: 7.4.8
 Version: 0.1.0
 */
 $settings = new site\settings;
+$urlParts = parse_url($settings->base_url);
+$domain = preg_replace('/^www\./', '', $urlParts['host']);
 ?> 
 <!-- This file should have html mixed with a little PHP to produce whatever content that you want. -->
 <link rel="stylesheet" href="mc-includes/core_plugins/privacy-policy/public/css/style.css">
@@ -66,6 +68,6 @@ $settings = new site\settings;
        <h4>Changes to our privacy policy</h4>
        <p>Any changes we may make to our privacy policy in the future will be posted on this page and, where appropriate, notified to you by e-mail. Please check back frequently to see any updates or changes to our privacy policy.</p>
        <h4>Contact</h4>
-       <p>Questions, comments and requests regarding this privacy policy are welcomed and should be addressed to <?php echo $settings->admin_email;?>.
+       <p>Questions, comments and requests regarding this privacy policy are welcomed and should be addressed to privacy@<?php echo $domain;?>.
      </div>
 </div>
