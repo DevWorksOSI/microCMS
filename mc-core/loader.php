@@ -5,8 +5,10 @@
  *
 */
 
+spl_autoload_register(function($name){
+        require_once 'mc-core/'.str_replace('\\','/',$name).'.php';
+});
 
-include 'autoload.php';
 use site\core;
 use site\settings;
 use site\blogs;
@@ -31,6 +33,7 @@ $twitter = $settings->twitter;
 $youtube = $settings->youtube;
 $instagram = $settings->instagram;
 $timezone = $settings->time_zone;
+$admin_email = $settings->admin_email;
 
 
 // Load Sentry functions
@@ -42,3 +45,6 @@ $sentry->check_ban($ip);
 // Core Functions
 $logged_in = $core->logged_in();
 $is_admin = $core->is_admin();
+
+// Blog Functions
+$lastBlog = $blogs->get_lastBlog();

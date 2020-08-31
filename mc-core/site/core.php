@@ -2,6 +2,7 @@
 namespace site;
 // We need the database
 use database\db;
+use site\settings;
 
 class core
 {
@@ -177,4 +178,86 @@ class core
 
 	 return "$difference $periods[$j] $tense ";
 	 }
+	 
+	 public function welcome_user($email, $display_name, $user_login)
+	 {
+	    $db = new db();
+	    $settings = new settings();
+	    
+	    // Check if we have a valid email server
+	    $query = "SELECT mailserver_url FROM mc_settings";
+	    $result = $db->query($query);
+	    $ms = $db->fetch_assoc($result);
+	    $mail_server = $ms['mailserver_url'];
+	    if($mail_server != '' || $mail_server != 'mail.example.com')
+	    {
+	       include 'mc-includes/PHPMailer.php';
+	       $mail->Subject = ''.$site_name.' - Welcome';
+	       $mail->addAddress(''.$email.'', ''.$display_name.'');
+	       $mail->Body = "<p>Hello $display_name,<br>
+	       Welcome to $site_name<br><br> We are so happy to have you with us.<br>
+	       Your Login is $user_login and your password is the one you used to signup with.<br>
+	       Please note that we cannot retrieve your password for you, for security reasons.
+	       <br>
+	       <br>
+	       $site_name
+	       </p>";
+	       $mail->AltBody = 'To view the message, please use an HTML compatible email viewer!';
+	       //$mail->send();
+	       if (!$mail->send())
+	       {
+	         echo '<div class="alert">';
+	         echo '<h2>Error</h2>';
+	         echo '<p>An email could not be sent, we apologize, but rest assured that you account has been created. Welcome to '.$site_name.'</p>';
+	         echo '</div>';
+	       }
+	       else
+	       {
+	         echo '<h2>Welcome</h2>';
+	         echo '<p>Hello '.$display_name.', an email has been sent to your inbox, please remember to check the Spam/Junk folder. Welcome to '.$site_name.', please <a href="/login">Log In</a></p>';
+	         
+	         // Send to admin
+	       $mail2->Subject = ''.$site_name.' - New user';
+	       $mail2->addAddress(''.$settings->admin_email.'', ''.$settings->site_name.'');
+	       $mail2->Body = "<p>
+	       New user on your site, $site_name:<br><br>
+	       Username: $user_login<br><br>
+	       Email: $email
+	       <br>
+	       <br>
+	       $site_name
+	       </p>";
+	       $mail2->AltBody = 'To view the message, please use an HTML compatible email viewer!';
+	       $mail2->send();
+	       }
+	       
+	    }
+	    else
+	    {
+	       // Send email the old way
+	       $subject = "Welcome to $site_name";
+	       $msg = "Hello $display_name, welcome to $site_name, we are so happy to have you with us. Your Login is $user_login and your password is the one that you used to sign up at $site_name. Please note that we cannot retrieve your password for you for security reasons.";
+	       
+	       mail($email,$subject,$msg);
+	    }
+	 }
+	 
+	 function create_RandomPassword()
+	 {
+	    $chars = "abcdefghijkmnopqrstuvwxyz023456789ABCDEFGHIJKLMNOPQRSTUVWXYZ!#_";
+    	    srand((double)microtime()*1000000);
+    	    $i = 0;
+    	    $pass = '' ;
+ 
+    	    while ($i <= 7)
+    	    {
+               $num = rand() % 33;
+               $tmp = substr($chars, $num, 1);
+               $pass = $pass . $tmp;
+               $i++;
+    	    }
+ 
+        return $pass;
+ 
+        }
 }

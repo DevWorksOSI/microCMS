@@ -1,0 +1,98 @@
+/*
+Admin CSS
+*/
+.admin_menu {
+  color: #fff;
+}
+.admin_menu a {
+  text-decoration: none;
+  color: #fff;
+}
+.admin_menu a:hover {
+   text-decoration: none;
+   color: #fff;
+}
+
+.left {
+  width: 10%;
+  background-color: #000000;
+  color: #fff;
+}
+
+.middle {
+  width: auto;
+  padding: 20px;
+}
+
+/* Clear floats after the columns */
+/*
+.row:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+*/
+
+.admin_head {
+  background-color: #000000;
+  width: 100%;
+  /*display: inline-block;*/
+  border: 1px;
+}
+.admin_head a {
+   color: #fff;
+   text-decoration: none;
+}
+
+.admin_foot {
+  background-color: #000000;
+  width: 100%;
+  /*display: inline-block;*/
+  border: 1px;
+}
+
+.admin_top_right {
+   padding-right: 25px;
+   background-color: #000;
+   color: #fff;
+   width: 50%;
+   text-align: right;
+}
+.admin_top_left {
+   padding-left: 25px;
+   background: #000;
+   color: #fff;
+   width: 50%;
+   text-align: left;
+}
+.admin_bottom_left {
+   padding: 50px;
+   background-color: #000;
+   color: #fff;
+   width: 50%;
+   text-align: left;
+}
+.admin_bottom_right {
+   padding-right: 52px;
+   background-color: #000;
+   color: #fff;
+   width: 50%;
+   text-align: right;
+}
+
+.dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+.dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: #000;
+  min-width: 160px;
+  padding: 12px 16px;
+  z-index: 1;
+}
+.dropdown:hover .dropdown-content {
+  display: block;
+}

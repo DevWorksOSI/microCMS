@@ -6,7 +6,6 @@ if (basename($_SERVER['PHP_SELF']) == basename(__FILE__))
 else
 {
 	echo '<div class="container">';
-	echo '<div class="row">';
 	
 	/*
 	* Function operatives
@@ -248,7 +247,6 @@ else
 	}
 	
 	
-	echo '</div>';
 	echo '</div>';
 }
 ?>

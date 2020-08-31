@@ -17,7 +17,6 @@ else
    echo '<div class="container">';
    echo '<div class="row">';
    echo '<div class="col">';
-   echo '<div class="error_response">';
    
    function general_error()
    {
@@ -41,7 +40,6 @@ else
 	general_error();
 	break;
    }
-   echo '</div>';
    echo '</div>';
    echo '</div>';
    echo '</div>';

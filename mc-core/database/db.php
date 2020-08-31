@@ -64,7 +64,7 @@ class db
 		// Test the results
 		if (!$result_set) 
 		{
-			die("Database query failed." . $conn->error);
+			die("Database query failed." . $conn -> error);
 		}
 		// Close the connection
 		$this->closeConnection();
@@ -136,5 +136,35 @@ class db
 		$escaped_string = mysqli_real_escape_string($conn, $string);
 		return $escaped_string;
 		$this->closeConnection();
+	}
+	
+	public function email_lookup($email)
+	{
+		$query = "SELECT * FROM mc_users WHERE user_email = $email";
+		$result = $this->query($query);
+		$this->confirm_query($result);
+		if($result)
+		{
+			return TRUE;
+		}
+		else
+		{
+			return FALSE;
+		}
+	}
+	
+	public function user_lookup($username)
+	{
+		$query = "SELECT * FROM mc_users WHERE user_login = $username";
+		$result = $this->query($query);
+		$this->confirm_query($result);
+		if($result)
+		{
+			return TRUE;
+		}
+		else
+		{
+			return FALSE;
+		}
 	}
 }

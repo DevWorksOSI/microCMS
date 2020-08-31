@@ -5,9 +5,11 @@ if (basename($_SERVER['PHP_SELF']) == basename(__FILE__))
 }
 else
 {
-	echo '<div class="main">';
+	echo '<div class="container">';
 	if(isset($_POST['register']))
 	{
+	   if(isset($_POST['human_check']))
+	   {
 		$db = new database\db;
 		$username = $db->prep_data($_POST['username']);
 		$password = $_POST['password'];
@@ -21,16 +23,21 @@ else
 			echo '</div>';
 			exit;
 		}
+		else
+		{
+		  $secure_pass = sha1($password);
+		}
+		$display_name = $db->prep_data($_POST['display_name']);
 		$email = $db->prep_data($_POST['email']);
-		$secure_pass = $db->prep_data(sha1($password));
+		$secure_pass = $db->prep_data($secure_pass);
 		
 		// Lookup Methods
 		$valid_email = $core->VerifyEmail($email);
-		$user_lookup = $core->user_lookup($username);
-		$email_lookup = $core->email_lookup($email);
+		//$user_lookup = $db->user_lookup($username);
+		//$email_lookup = $db->email_lookup($email);
 		
 		// Is the email address valid?
-		if($valid_email === 0)
+		if($valid_email == FALSE)
 		{
 			echo '<div id="alert">';
 			echo '<h3>ERROR!</h3>';
@@ -40,11 +47,11 @@ else
 			exit;
 		}
 		
-		$query = "SELECT * FROM accounts WHERE username = '$username'";
+		$query = "SELECT * FROM mc_users WHERE user_login='$username'";
 		$user = $db->query($query);
 		while($users = $db->fetch_assoc($user))
 		{
-			$members = $users['username'];
+			$members = $users['user_login'];
 			if($members)
 			{
 				echo '<div id="alert">';
@@ -56,11 +63,11 @@ else
 			}
 		}
 		
-		$query = "SELECT * FROM accounts WHERE email = '$email'";
+		$query = "SELECT * FROM mc_users WHERE user_email='$email'";
 		$result = $db->query($query);
 		while($rows = $db->fetch_assoc($result))
 		{
-			$eaddy = $rows['email'];
+			$eaddy = $rows['user_email'];
 			if($eaddy)
 			{
 				echo '<div id="alert">';
@@ -73,7 +80,7 @@ else
 		}
 		
 		// register the user
-			$query = "INSERT INTO accounts (username, password, email, isAdmin) VALUES ('$username', '$secure_pass', '$email', '0')";
+			$query = "INSERT INTO mc_users (user_login, user_pass, user_nickname, display_name, user_email, user_status, reg_date) VALUES ('$username', '$secure_pass', '$username', '$display_name', '$email', 0, NOW())";
 			$result = $db->query($query);
 			if(!$result)
 			{
@@ -84,9 +91,23 @@ else
 				echo '</div>';
 			}
 			else
-			{
-				$core->redirect_to("/login");
+			{  
+			   // Send email to user
+			   $core->welcome_user($email, $display_name, $username);
+			     
+			   // Now email the site admin
+			   //$core->newuser_admin($email, $display_name, $username);
+			   
+			   $core->redirect_to("/login");	
 			}
+	   }
+	   else
+	   {
+	      echo '<div class="alert">';
+	      echo '<h2>Error</h2>';
+	      echo '<p>Please ensure that you have completed all parts of the form.</p>';
+	      echo '</div>';
+	   }
 	}
 	else
 	{
@@ -117,6 +138,17 @@ else
 	   echo '<td><label for="email">Email Address:</label></td>';
 	   echo '<td>&nbsp;</td>';
 	   echo '<td><input id="email" type="email" name="email" required placeholder="you@gmail.com" title="Please enter a valid email address">';
+	   echo '</tr>';
+	    echo '<tr>';
+	   echo '<td><label for="display_name">Display Name:</label></td>';
+	   echo '<td>&nbsp;</td>';
+	   echo '<td><input id="display_name" type="text" name="display_name" required placeholder="You" title="Please enter a Display Name">';
+	   echo '</tr>';
+	   echo '<tr>';
+	   echo '<tr>';
+	   echo '<td><label for="human_check">Are you Human?:</label></td>';
+	   echo '<td>&nbsp;</td>';
+	   echo '<td><input type="checkbox" id="human_check" name="human_check">';
 	   echo '</tr>';
 	   echo '<tr>';
 	   echo '<td>&nbsp;</td>';

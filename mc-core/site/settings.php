@@ -37,5 +37,6 @@ class settings
 		//$this->site_logo = $row['site_logo'];
 		$this->site_theme = $seo['site_theme'];
 		$this->time_zone = $seo['time_zone'];
+		$this->admin_email = $seo['admin_email'];
 	}
 }

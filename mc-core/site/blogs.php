@@ -48,5 +48,14 @@ class blogs
 		$count = $data['total'];
 		return $count;
 	}
+	
+	public function get_lastBlog()
+	{
+	  $db = new db();
+	  $query = "SELECT blog_title, blog_exerpt, blog_slug, blog_date FROM mc_blogs ORDER BY id DESC LIMIT 1;";
+	  $result = $db->query($query);
+	  $data = $db->fetch_assoc($result);
+	  return $data;
+	}
 }
 ?>

@@ -1,4 +1,5 @@
 <?php
+ob_start();
 session_start();
 if(isset($_SESSION['admin']))
 {
@@ -50,14 +51,12 @@ while($row = $db->fetch_assoc($result))
         $finished = true;
         break;
     }
-    /*
 	if ($d === 'manage')
 	{
-		include 'modules/manage/main.php';
+		include 'mc-admin/admin.php';
 		$finished = true;
 		break;
 	}
-    */
 	if ($d === 'error')
 	{
 		include 'mc-includes/core_plugins/error/error.php';
@@ -113,4 +112,5 @@ if (!$finished)
 }
 // Include the themes Footer
 include 'mc-content/themes/'.$theme.'/footer.php';
+ob_end_flush();
 ?>
