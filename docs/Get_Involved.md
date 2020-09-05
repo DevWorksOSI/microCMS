@@ -17,7 +17,7 @@
 While we do encourage public development, we highy discourage getting away from the projects primary goal.
  - Keep it small, easy to use, easy to install and easy to update.
  - This is not another version of WordPress
- - Codex Standards are enfourced
+ - Codex Standards are enforced
  - Pull request will not be approved if they are not discussed first.
  - All pull request will be handled at the end of the week, unless its absolutly needed for the current or next version.
 
