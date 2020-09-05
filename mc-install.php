@@ -4,8 +4,7 @@
  * 6 Minute or less install
  * Use to install the microCMS
  * requires an established database
- * will write the config file
- * On complete, the admin/install folder will be deleted.
+ * will write to the config file
 */
 
 ?>
@@ -83,10 +82,6 @@ function step2() {
 		$dbname = $_POST['database'];
 		$dbserver = 'localhost';
 		var_dump($dbuser);
-		echo '<br>';
-		var_dump($dbname);
-		echo '<br>';
-		var_dump($dbpasswd);
 		$conn = mysqli_connect($dbserver,$dbuser,$dbpasswd,$dbname);
 		if(!$conn)
 		{
@@ -149,7 +144,6 @@ function step2() {
 
 function step3() {
 	echo '<p>Setting up data tables, this could take some time..</p>';
-	// import the site sql
 	// we need the config file
 	include 'mc-config.php';
 	$conn = new mysqli(DBHOST,DBUSER,DBPASS,DBNAME);
@@ -514,7 +508,7 @@ function step7() {
 
 function complete() {
 	echo '<h2>Congrats</h2>';
-	echo '<p>Your site is all setup and installed, please remember to <strong>DELETE</strong> the INSTALL folder.</p>';
+	echo '<p>Your site is all setup and installed</p>';
 	echo '<p>Then <a href="/"><strong>Log In</strong></a> to your site and change your site settings.</p>';
 }
 
