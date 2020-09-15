@@ -20,6 +20,3 @@
 
 
 #### Additional details / screenshot
-
-- ![Screenshot]()
--
