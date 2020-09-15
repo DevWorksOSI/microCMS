@@ -6,6 +6,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.5.1] - 20200914 1700 UTC - Development
+ - add route class
+ - add admin dashboard functionality
+ - add maintenance check to index
+ - add functions to handle back-end methods
+ - opted to use post/slug vs post/day/month/year/slug for posts and SEO
+ - revamped core theme
+ - add remote news to admin dashboard via CuRL 
+
 ## [1.5.1] - 20200830 2004 UTC - Development
  - add parse_url to privacy-policy
  - remove define from index
