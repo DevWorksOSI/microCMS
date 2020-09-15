@@ -16,8 +16,16 @@ Ongoing and Evolving
 ### INTENT
 Small footprint, easy to install, fast load, class based, pluggable and themeable.
 
-### Issues
+### ISSUES
 Please see <a href="docs/bug_report.md">this</a> then use the <a href="https://github.com/DevWorksOSI/microCMS/issues">Issue Tracker</a> for any issues that warrent attention
+
+### SETUP
+1. Upload everything to your webserver
+2. Configure your database
+3. Point you browser to yoursite.com/mc-install.php
+4. Follow the instructions until you are complete
+5. Check your site
+6. It is recommended that you remove mc-install.php after setup
 
 ### Contributing
 Please see <a href="docs/CODE OF CONDUCT.md">this</a>
