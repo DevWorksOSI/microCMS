@@ -12,7 +12,7 @@ Requires PHP: 7.4.8
 Version: 0.1.0
 */
 $settings = new site\settings;
-$urlParts = parse_url($settings->base_url);
+$urlParts = parse_url($settings->site_url);
 $domain = preg_replace('/^www\./', '', $urlParts['host']);
 ?> 
 <!-- This file should have html mixed with a little PHP to produce whatever content that you want. -->
@@ -22,7 +22,7 @@ $domain = preg_replace('/^www\./', '', $urlParts['host']);
     <div class="content">
       <h1>Privacy Policy</h1>
       <p>This website is operated by <?php echo $settings->site_name;?>. (“We”) are committed to protecting and preserving the privacy of our visitors when visiting our site or communicating electronically with us.</p>
-      <p>This policy sets out how we process any personal data we collect from you or that you provide to us through our website. We confirm that we will keep your information secure and that we will comply fully with all applicable Data Protection legislation and regulations. Please read the following carefully to understand what happens to personal data that you choose to provide to us, or that we collect from you when you visit this site. By visiting <?php echo $settings->base_url;?> (our website) you are accepting and consenting to the practices described in this policy.</p>
+      <p>This policy sets out how we process any personal data we collect from you or that you provide to us through our website. We confirm that we will keep your information secure and that we will comply fully with all applicable Data Protection legislation and regulations. Please read the following carefully to understand what happens to personal data that you choose to provide to us, or that we collect from you when you visit this site. By visiting <?php echo $settings->site_url;?> (our website) you are accepting and consenting to the practices described in this policy.</p>
     </div>
     <div class="content">
       <h3>Types of information we may collect from you</h3>

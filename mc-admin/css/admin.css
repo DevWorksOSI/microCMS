@@ -1,8 +1,14 @@
 /*
 Admin CSS
 */
+
+body {
+ width: 100%;
+ background-color: #000000;
+}
 .admin_menu {
   color: #fff;
+  padding: 5px;
 }
 .admin_menu a {
   text-decoration: none;
@@ -12,16 +18,20 @@ Admin CSS
    text-decoration: none;
    color: #fff;
 }
+.admin_menu ul {
+   list-style: none
+}
 
 .left {
   width: 10%;
   background-color: #000000;
   color: #fff;
+  float: left;
 }
 
 .middle {
   width: auto;
-  padding: 20px;
+  padding: 50px;
 }
 
 /* Clear floats after the columns */
@@ -33,11 +43,15 @@ Admin CSS
 }
 */
 
+a {
+   color: 000;
+   text-decoration: none;
+}
+
 .admin_head {
   background-color: #000000;
   width: 100%;
-  /*display: inline-block;*/
-  border: 1px;
+  margin: 0 auto;
 }
 .admin_head a {
    color: #fff;
@@ -47,8 +61,6 @@ Admin CSS
 .admin_foot {
   background-color: #000000;
   width: 100%;
-  /*display: inline-block;*/
-  border: 1px;
 }
 
 .admin_top_right {
@@ -65,34 +77,56 @@ Admin CSS
    width: 50%;
    text-align: left;
 }
+
+.admin_top_left a {
+   color: #fff;
+   text-decoration: none;
+}
 .admin_bottom_left {
-   padding: 50px;
+   padding-left: 50px;
    background-color: #000;
    color: #fff;
    width: 50%;
    text-align: left;
 }
 .admin_bottom_right {
-   padding-right: 52px;
+   padding-right: 50px;
    background-color: #000;
    color: #fff;
    width: 50%;
    text-align: right;
 }
 
+.menu-items {
+   padding: 60px;
+   color: #000;
+}
+
 .dropdown {
   position: relative;
-  display: inline-block;
+  /*display: inline-block;*/
+  /*color: #fff;*/
 }
 
 .dropdown-content {
   display: none;
-  position: absolute;
-  background-color: #000;
-  min-width: 160px;
-  padding: 12px 16px;
-  z-index: 1;
+  /*position: absolute;*/
+  /*min-width: 160px;*/
+  /*z-index: 1;*/
+  padding-left: 0px;
 }
-.dropdown:hover .dropdown-content {
-  display: block;
+
+.dropdown-content a {
+  /*padding: 12px 16px;*/
+  text-decoration: none;
+  /*display: block;*/
+}
+
+.sentry_banned {
+  width: 100%;
+}
+.sentry-banned ul, li {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
 }

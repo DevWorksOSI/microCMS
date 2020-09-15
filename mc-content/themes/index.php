@@ -1,6 +1,2 @@
 <?php
-
-header('Location: /');
-exit();
-
-?>
+header("Location: /");

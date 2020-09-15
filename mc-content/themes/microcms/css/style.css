@@ -1,0 +1,92 @@
+/* Main CSS File */
+@import url("bootstrap.min.css");
+body {
+	margin: 30px 0 20px 0;
+	padding: 0;
+	background: #fff;
+	text-align: justify;
+	line-height: 25px;
+	font-family: 'Lato', sans-serif;
+	font-size: 16px;
+	font-weight:300;
+	color: #3C3C37;
+	width: auto;
+}
+a {
+	text-decoration: none;
+	color: #000;
+}
+
+a.img {
+	text-decoration: none;
+}
+a.active {
+  color: #000;
+  text-decoration: nont;  
+}
+
+.main {
+	width: 900px;
+	color: #000000;
+	margin: 5px auto;
+	padding-top: 25px;
+    padding-bottom: 25px;
+}
+ul li {
+	list-style-type: none;
+}
+
+#alert {
+	color: #FF0000;
+}
+
+#alert h3 {
+	font-weight: 200px;
+}
+
+.tooltip {
+  position: relative;
+  display: inline-block;
+  border-bottom: 1px dotted black;
+}
+
+.tooltip .tooltiptext {
+  visibility: hidden;
+  width: 120px;
+  background-color: black;
+  color: #fff;
+  text-align: center;
+  border-radius: 6px;
+  padding: 5px 0;
+
+  /* Position the tooltip */
+  position: absolute;
+  z-index: 1;
+}
+
+.tooltip:hover .tooltiptext {
+  visibility: visible;
+}
+
+.active {
+  font-weight: bold;
+  text-decoration: none;
+}
+.top_jumbotron {
+  background-color:#4b0000 !important;
+  color: white;
+}
+
+.middle_jumbotron {
+  background-color:#000000 !important;
+  color: white;
+}
+
+.bottom_jumbotron {
+  background-color:#4b0000 !important;
+  color: white;
+}
+.bottom_jumbotron a {
+  color: white;
+  text-decoration: none;
+}

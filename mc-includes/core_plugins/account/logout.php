@@ -1,5 +1,5 @@
 <?php
-//session_unset($_SESSION);
+session_unset();
 session_destroy();
-$core->redirect_to("/");
+redirect("/");
 ?>

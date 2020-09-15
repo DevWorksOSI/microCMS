@@ -1,0 +1,16 @@
+#about {
+   width: 100%;
+   color: #000000;
+   padding-top: 50px;
+}
+
+.content {
+   color: #000000;
+   padding-bottom: 30px;
+   padding-top: 30px;
+}
+
+.button {
+   text-align: center;
+   margin: auto;
+}

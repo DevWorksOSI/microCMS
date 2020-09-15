@@ -10,8 +10,7 @@ else
 	{
 	   if(isset($_POST['human_check']))
 	   {
-		$db = new database\db;
-		$username = $db->prep_data($_POST['username']);
+		$username = mc_prepData($_POST['username']);
 		$password = $_POST['password'];
 		$password2 = $_POST['password2'];
 		if($password2 != $password)
@@ -27,12 +26,12 @@ else
 		{
 		  $secure_pass = sha1($password);
 		}
-		$display_name = $db->prep_data($_POST['display_name']);
-		$email = $db->prep_data($_POST['email']);
-		$secure_pass = $db->prep_data($secure_pass);
+		$display_name = mc_prepData($_POST['display_name']);
+		$email = mc_prepData($_POST['email']);
+		$secure_pass = mc_prepData($secure_pass);
 		
 		// Lookup Methods
-		$valid_email = $core->VerifyEmail($email);
+		$valid_email = mc_verifyEmail($email);
 		//$user_lookup = $db->user_lookup($username);
 		//$email_lookup = $db->email_lookup($email);
 		
@@ -47,9 +46,9 @@ else
 			exit;
 		}
 		
-		$query = "SELECT * FROM mc_users WHERE user_login='$username'";
-		$user = $db->query($query);
-		while($users = $db->fetch_assoc($user))
+		$query = "SELECT * FROM mc_users WHERE user_login = '$username'";
+		$user = mc_query($query);
+		while($users = mc_fetchAssoc($user))
 		{
 			$members = $users['user_login'];
 			if($members)
@@ -63,9 +62,9 @@ else
 			}
 		}
 		
-		$query = "SELECT * FROM mc_users WHERE user_email='$email'";
-		$result = $db->query($query);
-		while($rows = $db->fetch_assoc($result))
+		$query = "SELECT * FROM mc_users WHERE user_email = '$email'";
+		$result = mc_query($query);
+		while($rows = mc_fetchAssoc($result))
 		{
 			$eaddy = $rows['user_email'];
 			if($eaddy)
@@ -81,7 +80,7 @@ else
 		
 		// register the user
 			$query = "INSERT INTO mc_users (user_login, user_pass, user_nickname, display_name, user_email, user_status, reg_date) VALUES ('$username', '$secure_pass', '$username', '$display_name', '$email', 0, NOW())";
-			$result = $db->query($query);
+			$result = mc_query($query);
 			if(!$result)
 			{
 				echo '<div id="alert">';
@@ -93,12 +92,13 @@ else
 			else
 			{  
 			   // Send email to user
+			   $core = new site\core;
 			   $core->welcome_user($email, $display_name, $username);
 			     
 			   // Now email the site admin
 			   //$core->newuser_admin($email, $display_name, $username);
 			   
-			   $core->redirect_to("/login");	
+			   redirect("/login");	
 			}
 	   }
 	   else

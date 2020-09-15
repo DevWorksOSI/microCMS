@@ -1,0 +1,17 @@
+.repository {
+   width: 900px;
+   color: #000000;
+   margin: 5px auto;
+   padding-top: 25px;
+   padding-bottom: 25px;
+}
+
+.container {
+   display: flex;
+   flex-wrap: wrap;
+}
+
+.box {
+   width: 50%;
+   border: 1px;
+}

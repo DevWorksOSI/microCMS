@@ -1,0 +1,23 @@
+.social {
+  display: flex;
+}
+
+.social_button {
+    background-color: Transparent;
+    background-repeat:no-repeat;
+    border: none;
+    cursor:pointer;
+    overflow: hidden;
+    outline:none;
+}
+.facebook {
+  padding-left: 15px;
+  padding-right: 15px;
+  color: gray;
+}
+
+.twitter {
+  padding-left: 15px;
+  padding-right: 15px;
+  color: gray;
+}

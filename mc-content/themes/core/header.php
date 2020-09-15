@@ -1,60 +1,31 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <base href="<?php echo $base_url;?>">
+    <base href="<?php echo $site_url;?>">
     <title><?php echo $site_name;?></title>
+    <!-- Required meta tags -->
     <meta charset="utf-8">
-    <meta content="IE=edge,chrome=1" http-equiv="X-UA-Compatible">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 	<meta name="no-email-collection" content="http://www.unspam.com/noemailcollection/">
-	<meta name="description" content="<?php echo $description;?>">
-	<meta name="keywords" content="<?php echo $keywords;?>">
+	<meta name="description" content="<?php echo $site_description;?>">
+	<meta name="keywords" content="<?php echo $site_keywords;?>">
 	
-	<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-        <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
-        <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i,800,800i&subset=cyrillic,cyrillic-ext,greek,greek-ext,latin-ext,vietnamese" rel="stylesheet">
-	<link rel="stylesheet" href="mc-content/themes/<?php echo $theme;?>/css/style.css">
-	<link rel="icon" href="mc-content/themes/<?php echo $theme;?>/img/favicon.ico">
+	<!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+	<link rel="stylesheet" href="mc-content/themes/core/css/style.css">
+	<link rel="icon" href="mc-content/themes/core/img/favicon.ico">
 </head>
 <body>
-<nav class="navbar navbar-inverse">
-    <div class="container-fluid">
-        <div class="navbar-header">
-            <button class="navbar-toggle" data-target="#myNavbar" data-toggle="collapse" type="button">
-                <span class="icon-bar"></span> <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-            </button>
-        </div>
-        <div class="collapse navbar-collapse" id="myNavbar">
-            <ul class="nav navbar-nav navbar-right">
-				<li><a href="/" hreflang="en"><i aria-hidden="true" class="fa fa-home"></i> <strong>Home</strong></a></li>
-				<li><a href="/codex" hreflang="en"><i aria-hidden="true" class="fa fa-users"></i> <strong>Get Involved</strong></a></li>
-				<?php
-				/*
-				$auth = $core->logged_in();
-				if($auth == TRUE)
-				{
-					echo '<li><a href="/logout" hreflang="en"><i aria-hidden="true" class="fa fa-lock"></i> <strong>Log Out</strong></a></li>';
-				}
-				else
-				{
-					echo '<li><a href="/login" hreflang="en"><i aria-hidden="true" class="fa fa-lock"></i> <strong>Log In</strong></a></li>';
-				}
-				// Admin
-				if(isset($_SESSION['admin']))
-				{
-					$admin = $_SESSION['admin'];
-					if($admin != FALSE)
-					{
-						echo '<li><a href="/manage" hreflang="en"><i aria-hidden="true" class="fa fa-cog"></i> <strong>Manage</strong></a></li>';
-					}
-				}
-				*/
-				?>
-			</ul>
-        </div>
-    </div>
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+  <a class="navbar-brand" href="#">microCMS Core Theme</a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="collapse navbar-collapse" id="navbarNav">
+    <ul class="navbar-nav">
+      <li class="nav-item active">
+        <a class="nav-link" href="/">Home</a>
+      </li>
+    </ul>
+  </div>
 </nav>

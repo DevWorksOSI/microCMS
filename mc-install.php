@@ -4,21 +4,22 @@
  * 6 Minute or less install
  * Use to install the microCMS
  * requires an established database
- * will write to the config file
+ * will write the config file
+ * On complete, the admin/install folder will be deleted.
 */
-
+ob_start();
 ?>
 <!DOCTYPE html>
 <html>
 <head>
 <link rel="stylesheet" href="mc-includes/css/install.css">
-<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
 <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
 <title>microCMS Install</title>
 </head>
 <body>
+<div class="container">
+<div class="row">
 <div class="install">
 <?php
 
@@ -29,35 +30,7 @@ if (isset($_GET['op'])) {
 }
 
 function begin_install() {
-   // Lets check the permissions on wp-config.php
-   echo '<h2>Install Permissions</h2>';
-   echo '<p>Checking to see if we have permission to read and write. If not, a Fix this button will appear.</p>';
-   $config = 'wp-config.php';
-   $msg = is_readable($config);
-   if($msg)
-   {
-      $msg = '<p>Good to Go!</p><br><p><a href="mc-install.php?op=step1"><button>Continue</button></a></p>';
-   }
-   else
-   {
-      $msg = '<p>Config File is not readable <a href="mc-install.php?op=fix_perms"><button>Fix This</button></a></p>';
-   }
-   echo $msg . '<br/>';
-}
-
-function fix_perms()
-{
-   // Fix file permissions
-   $file = 'mc-config.php';
-   $fix = chmod($file, 0664);
-   if(!$fix)
-   {
-     echo '</p>Config file permissions could not be changed.</p>';
-   }
-   else
-   {
-     echo '</p>Config file permissions changed.</p><br><p><a href="mc-install.php?op=step1"><button>Continue</button></a></p>';
-   }
+   step1();
 }
 
 function step1() {
@@ -81,7 +54,6 @@ function step2() {
 		$dbpasswd = $_POST['dbpassword'];
 		$dbname = $_POST['database'];
 		$dbserver = 'localhost';
-		var_dump($dbuser);
 		$conn = mysqli_connect($dbserver,$dbuser,$dbpasswd,$dbname);
 		if(!$conn)
 		{
@@ -93,62 +65,76 @@ function step2() {
 		   $configfile = 'mc-config.php';
 		   if(file_exists($configfile))
 		   {
-		      chmod($configfile, 0664);
-		   }
-		   $config = fopen($configfile, "w") or die("Unable to open $configfile");
+		      chmod($configfile, 0775);
+		   
+		      $config = fopen($configfile, "w") or die("Unable to open $configfile");
 	
 			
-			$begin = "<?php\n\n";
-			fwrite($config, $begin);
-			$notes0 = "/*\n";
-			fwrite($config, $notes0);
-			$notes1 = "* config.php\n";
-			fwrite($config, $notes1);
-			$notes2 = "* Database Configuration\n";
-			fwrite($config, $notes2);
-			$notes3 = "* @ DBUSER\n";
-			fwrite($config, $notes3);
-			$notes4 = "* @ DBPASS\n";
-			fwrite($config, $notes4);
-			$notes5 = "* @ DBNAME\n";
-			fwrite($config, $notes5);
-			$notes6 = "* @ DBHOST\n";
-			fwrite($config, $notes6);
-			$notes7 = "*/\n\n";
-			fwrite($config, $notes7);
+			   $begin = "<?php\n\n";
+			   fwrite($config, $begin);
+			   $notes0 = "/*\n";
+			   fwrite($config, $notes0);
+			   $notes1 = "* config.php\n";
+			   fwrite($config, $notes1);
+			   $notes2 = "* Database Configuration\n";
+			   fwrite($config, $notes2);
+			   $notes3 = "* @ DBUSER\n";
+			   fwrite($config, $notes3);
+			   $notes4 = "* @ DBPASS\n";
+			   fwrite($config, $notes4);
+			   $notes5 = "* @ DBNAME\n";
+			   fwrite($config, $notes5);
+			   $notes6 = "* @ DBHOST\n";
+			   fwrite($config, $notes6);
+			   $notes7 = "*/\n\n";
+			   fwrite($config, $notes7);
 			
-			$duser = "define('DBUSER', '$dbuser');\n";
-			fwrite($config, $duser);
-			$dbpass = "define('DBPASS', '$dbpasswd');\n";
-			fwrite($config, $dbpass);
-			$db = "define('DBNAME', '$dbname');\n";
-			fwrite($config, $db);
-			$dbs = "define('DBHOST', 'localhost');\n";
-			fwrite($config, $dbs);
-			
-			// Sentry/HTTPBL Using ours
-			$notes8 = "\n\n";
-			fwrite($config, $notes8);
-			$notes9 = "// Sentry/HTTPBL KEY\n";
-			fwrite($config, $notes9);
-			$notes10 = "define('httpBL_KEY','gbraupsxiodf');\n";
-			fwrite($config, $notes10);
-			
-			
-			fclose($configfile);
-			
-			echo '<p>Config file created<br><a href="mc-install.php?op=step3"><button>Continue..</button></a></p>';
-		   }
+			   $duser = "define('DBUSER', '$dbuser');\n";
+			   fwrite($config, $duser);
+			   $dbpass = "define('DBPASS', '$dbpasswd');\n";
+			   fwrite($config, $dbpass);
+			   $db = "define('DBNAME', '$dbname');\n";
+			   fwrite($config, $db);
+			   $dbs = "define('DBHOST', 'localhost');\n";
+			   fwrite($config, $dbs);
+			   $notes8 = "\n\n";
+			   fwrite($config, $notes8);
+			   $notes9 = "// Application Root\n";
+			   fwrite($config, $notes9);
+			   $approot = "define('APPROOT', '/');;\n";
+			   fwrite($config, $approot);
+			   $notes10 = "\n\n";
+			   fwrite($config, $notes10);
+			   $notes11 = "// HTTPBL KEY for Sentry\n";
+			   $sentry = "define('httpBL_KEY','gbraupsxiodf');";
+			   fwrite($config, $sentry);
+			   $notes12 = "\n\n";
+			   fwrite($config, $notes12);
+			   $notes13 = "/* Site Debug\n";
+			   fwrite($config, $notes13);
+			   $notes14 = "* Set to true to turn on Debug During Development\n";
+			   fwrite($config, $notes14);
+			   $notes15 = "* use define('DEBUG', true); whenever you are developing something\n";
+			   fwrite($config, $notes15);
+			   $debug = "define('DEBUG', false);";
+			   fwrite($config, $debug);
+			   fclose($configfile);
+			   header("Location: mc-install.php?op=step3");
+		    }
+		}
 	}
 }
 
 function step3() {
 	echo '<p>Setting up data tables, this could take some time..</p>';
+	// import the site sql
 	// we need the config file
 	include 'mc-config.php';
 	$conn = new mysqli(DBHOST,DBUSER,DBPASS,DBNAME);
 		
 	// Users Table
+	$drop_users = "DROP TABLE IF EXISTS mc_users";
+	$conn->query($drop_users);
 	$users = "CREATE TABLE mc_users (
 	id INT(6) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
 	user_login VARCHAR(30) NOT NULL,
@@ -162,20 +148,16 @@ function step3() {
 	user_status int(1) NOT NULL DEFAULT '0',
 	reg_date DATETIME
 	)";
-	if ($conn->query($users) === TRUE) {
-	   echo "<p>Users Table Created</p>";
-	}
-	else
-	{
-	   echo "<p>Users table was not created</p>";
-	   echo "<p>Error creating table: " . $conn->error;
-	   echo "</p>";
-	}
+	$conn->query($users);
 	
 	// Settings Table
+	$drop_settings = "DROP TABLE IF EXISTS mc_settings";
+	$conn->query($drop_settings);
 	$settings = "CREATE TABLE mc_settings (
+	id INT(1) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
 	site_name VARCHAR(150) NOT NULL,
 	site_url VARCHAR(150) NOT NULL,
+	site_slug VARCHAR(150),
 	site_description VARCHAR(255) NOT NULL,
 	site_theme VARCHAR(50) NOT NULL,
 	mailserver_url VARCHAR(150),
@@ -188,14 +170,15 @@ function step3() {
 	twitter VARCHAR(50),
 	instagram VARCHAR(50),
 	youtube VARCHAR(50),
-	time_zone VARCHAR(150) NOT NULL
+	time_zone VARCHAR(150) NOT NULL,
+	maintenance INT(1)
 	)";
 	if ($conn->query($settings) === TRUE) {
-	   echo "<p>Settings Table Created</p>";
 	   $do_settings = "INSERT INTO mc_settings
 	   (
 	   site_name,
 	   site_url,
+	   site_slug,
 	   site_description,
 	   site_theme,
 	   mailserver_url,
@@ -208,122 +191,77 @@ function step3() {
 	   twitter,
 	   instagram,
 	   youtube,
-	   time_zone
+	   time_zone,
+	   maintenance
 	   )
 	   VALUES
 	   (
 	   'microCMS',
 	   'http://localhost',
+	   'a microCMS Website',
 	   'a microCMS driven Site', 
 	   'core',
 	   'mail.example.com',
 	   'you@example.com',
 	   'password',
 	   '587',
-	   'a,whole,bunch.of.key,words',
+	   'a,whole,bunch,of,key,words',
 	   'admin@localhost',
 	   'NULL',
 	   'NULL',
 	   'NULL',
 	   'NULL',
-	   'unknown'
+	   'unknown',
+	   '0'
 	   )";
-	   if ($conn->query($do_settings) === TRUE) {
-	      echo '<p>Settings Updated..</p>';
-	   }
-	   else
-	   {
-	      echo '<p>Settings could not be updated.</p>';
-	      echo "<p>Error: " . $conn->error;
-	      echo '</p>';
-	   }
-	}
-	else
-	{
-	   echo "<p>Settings table was not created</p>";
-	   echo "<p>Error creating table: " . $conn->error;
-	   echo "</p>";
+	   $conn->query($do_settings);
 	}
 	
 	// Blogs Table
-	$blogs = "CREATE TABLE mc_blogs (
+	$drop_blogs = "DROP TABLE IF EXISTS mc_posts";
+	$conn->query($drop_blogs);
+	$blogs = "CREATE TABLE mc_posts (
 	id INT(6) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
-	blog_title VARCHAR(150) NOT NULL,
-	blog_exerpt VARCHAR(150) NOT NULL,
-	blog_contents text,
-	blog_author VARCHAR(30),
-	blog_date DATETIME,
-	blog_views INT(1),
-	blog_loves INT(1),
-	allow_comments INT(1) 
+	post_title VARCHAR(150) NOT NULL,
+	post_exerpt VARCHAR(150) NOT NULL,
+	post_contents text NOT NULL,
+	post_author VARCHAR(30) NOT NULL,
+	post_date DATETIME NOT NULL,
+	allow_comments INT(1) NOT NULL,
+	post_slug VARCHAR(150) NOT NULL,
+	post_likes INT(1) NOT NULL
 	)";
-	if ($conn->query($blogs) === TRUE) {
-	   echo "<p>Blogs Table Created</p>";
-	}
-	else
-	{
-	   echo "<p>Blogs table was not created</p>";
-	   echo "<p>Error creating table: " . $conn->error;
-	   echo "</p>";
+	$conn->query($blogs);
+	
+	// Visits Table
+	$drop_visits = "DROP TABLE IF EXISTS mc_sitevisits";
+	$conn->query($drop_visits);
+	$visits = "CREATE TABLE mc_sitevisits (
+	id INT(1) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+	count MEDIUMINT(6)
+	)";
+	if($conn->query($visits) === TRUE) {
+		$query = "INSERT INTO mc_sitevisits (id, count) VALUES (1, 0)";
+		$conn->query($query);
 	}
 	
 	// Plugins Table
+	$drop_plugins = "DROP TABLE IF EXISTS mc_plugins";
+	$conn->query($drop_plugins);
 	$plugins = "CREATE TABLE mc_plugins (
 	id INT(6) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
 	plugin_name VARCHAR(150) NOT NULL,
 	plugin_slug VARCHAR(150) NOT NULL,
 	plugin_type INT(1) NOT NULL,
 	plugin_status INT(1) NOT NULL,
-	plugin_text VARCHAR(255) NOT NULL
+	plugin_text VARCHAR(255) NOT NULL,
+	plugin_version VARCHAR(5) NOT NULL
 	)";
-	if ($conn->query($plugins) === TRUE) {
-	   echo "<p>Plugins Table Created</p>";
-	}
-	else
-	{
-	   echo "<p>Plugin table was not created</p>";
-	   echo "<p>Error creating table: " . $conn->error;
-	   echo "</p>";
-	}
-	
-	// Metadata Table
-	$meta = "CREATE TABLE mc_metadata (
-	id INT(6) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
-	type INT(1),
-	post_date DATETIME,
-	post_id INT(1),
-	content TEXT,
-	who INT(1)
-	)";
-	if ($conn->query($meta) === TRUE) {
-	   echo "<p>Metadata Table Created</p>";
-	}
-	else
-	{
-	   echo "<p>Metadata table was not created</p>";
-	   echo "<p>Error creating table: " . $conn->error;
-	   echo "</p>";
-	}
-	
-	// Symlink Table
-	$meta = "CREATE TABLE mc_symlinks (
-	id INT(1) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
-	link_type VARCHAR(50),
-	page VARCHAR(100),
-	slug VARCHAR(150),
-	link_status INT(1)
-	)";
-	if ($conn->query($meta) === TRUE) {
-	   echo "<p>Metadata Table Created</p>";
-	}
-	else
-	{
-	   echo "<p>Metadata table was not created</p>";
-	   echo "<p>Error creating table: " . $conn->error;
-	   echo "</p>";
-	}
+	$conn->query($plugins);
 	
 	// Version Table
+	$drop_version = "DROP TABLE IF EXISTS mc_version";
+	$conn->query($drop_version);
 	$version = "CREATE TABLE mc_version (
 	major INT(1) NOT NULL,
 	minor INT(1) NOT NULL,
@@ -331,26 +269,39 @@ function step3() {
 	codename VARCHAR(20) NOT NULL
 	)";
 	if ($conn->query($version) === TRUE) {
-	   echo "<p>Version Table Created</p>";
 	   $set_version = "INSERT INTO mc_version (major, minor, increment, codename) VALUES ('1', '5', '1', 'Odin')";
-	   if ($conn->query($set_version) === TRUE) {
-	      echo "<p>Version Table Updated</p>";
-	   }
-	   else
-	   {
-	      echo "<p>Version was not updated</p>";
-	   }
+	   $conn->query($set_version);
 	}
-	else
-	{
-	   echo "<p>Version table was not created</p>";
-	   echo "<p>Error creating table: " . $conn->error;
-	   echo "</p>";
-	}
+	
+	// Sentry Table
+	$drop_sentry = "DROP TABLE IF EXISTS mc_bannedip";
+	$conn->query($drop_sentry);
+	$sentry = "CREATE TABLE mc_bannedip (
+	id INT(6) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+	ip VARCHAR(100) NOT NULL,
+	bann_date DATETIME,
+	source VARCHAR(20) NOT NULL,
+	country VARCHAR(8) NOT NULL
+	)";
+	$conn->query($sentry);
+	
+	// MataData Table
+	$drop_meta = "DROP TABLE IF EXISTS mc_metadata";
+	$conn->query($drop_meta);
+	$meta = "CREATE TABLE mc_metadata (
+	id INT(1) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+	post_type INT(1) NOT NULL,
+	content TEXT,
+	content_date DATETIME,
+	post_id MEDIUMINT(6),
+	user_id MEDIUMINT(6),
+	user_name VARCHAR(50) NOT NULL
+	)";
+	$conn->query($meta);
 	
 	$conn->close();
 	
-	echo '<br><p><a href="mc-install.php?op=step4"><button>Continue..</button></a></a>';
+	header("Location: mc-install.php?op=step4");
 
 }
 
@@ -384,12 +335,8 @@ function step5() {
 		// Add the TimeZone to the settings table
 		$query = "UPDATE mc_settings SET time_zone='$tz'";
 		$result = mysqli_query($conn, $query);
-		//confirm_query($result);
 		
-		// Echo the button
-		echo '<h1>Time Zone Set</h1>';
-		echo '<p>Your time zone has been set to '.$tz.'</p>';
-		echo '<p><a href="mc-install.php?op=step6"><input type="button" value="Continue"></a></p>';
+		header("Location: mc-install.php?op=step6");
 		
 	}
 }
@@ -448,6 +395,10 @@ function step6() {
    echo '<td><input type="text" name="site_description" placeholder="Describe your site"></td>';
    echo '</tr>';
    echo '<tr>';
+   echo '<td><strong>Site Short Description:</strong></td>';
+   echo '<td><input type="text" name="site_shortdescription" placeholder="a microCMS Website"></td>';
+   echo '</tr>';
+   echo '<tr>';
    echo '<td><strong>Site Keywords:</strong></td>';
    echo '<td><input type="text" name="site_keywords" placeholder="words,seperated,by,commas"></td>';
    echo '</tr>';
@@ -472,6 +423,7 @@ function step7() {
       $site_name = $_POST['site_name'];
       $site_url = $_POST['site_url'];
       $site_description = $_POST['site_description'];
+	  $short_description = $_POST['site_shortdescription'];
       $site_keywords = $_POST['site_keywords'];
       if($pass2 != $pass1)
       {
@@ -486,13 +438,12 @@ function step7() {
 	   $conn = new mysqli(DBHOST,DBUSER,DBPASS,DBNAME);
 	   $valid_pass = sha1($pass1);
 	   $add_admin = "INSERT INTO mc_users
-	                (user_login, user_pass, user_nicname, display_name, user_email, user_status, reg_date ) 
+	                (user_login, user_pass, user_nickname, display_name, user_email, user_status, reg_date ) 
 	                VALUES ('$user_name', '$valid_pass', '$display_name', '$display_name', '$user_email', '1', NOW())";
 	   if ($conn->query($add_admin) === TRUE) {
-	   $do_admin_settings = "UPDATE mc_settings SET admin_email='$user_email', site_name='$site_name', site_url='$site_url', site_description='%$site_description', site_keywords='$site_keywords'";
+	   $do_admin_settings = "UPDATE mc_settings SET admin_email='$user_email', site_name='$site_name', site_url='$site_url', site_slug='$short_description', site_description='$site_description', site_keywords='$site_keywords'";
 	   $conn->query($do_admin_settings);
-	     echo '<p>Great, your admin account and site settings has been established, let\'s continue.</p>';
-	     echo '<a href="mc-install.php?op=complete"><button>Continue..</button></a>';
+	     header("Location: mc-install.php?op=complete");
 	   }
 	
         }
@@ -508,7 +459,7 @@ function step7() {
 
 function complete() {
 	echo '<h2>Congrats</h2>';
-	echo '<p>Your site is all setup and installed</p>';
+	echo '<p>Your site is all setup and installed.</p>';
 	echo '<p>Then <a href="/"><strong>Log In</strong></a> to your site and change your site settings.</p>';
 }
 
@@ -542,10 +493,6 @@ switch($d) {
 			step7();
 			break;
 			
-	case 'fix_perms':
-			fix_perms();
-			break;
-			
 	case 'complete':
 			complete();
 			break;
@@ -555,7 +502,13 @@ switch($d) {
 		   begin_install();
 		   break;
 }
+ob_end_flush();
 ?>
 </div>
+</div>
+</div>
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous"></script>
 </body>
 </html>

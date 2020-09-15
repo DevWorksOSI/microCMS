@@ -14,10 +14,8 @@ else
 		$password = $_POST['password'];
 		$secure_pass = sha1($password);
 		
-		$query = "SELECT * FROM mc_users WHERE user_login = '$username' && user_pass = '$secure_pass'";
-		$result = $db->query($query);
-		$user_count = $db->rows($result);
-		if(!$user_count)
+		$user_count = mc_login($username, $secure_pass);
+		if($user_count != 1)
 		{
 		   echo '<div class="col-lg">';
 		   echo '<div class="error_box">';
@@ -29,31 +27,13 @@ else
 		}
 		else
 		{
-			$query = "SELECT * FROM mc_users WHERE user_login = '$username'";
-			$result = $db->query($query);
-			$user = $db->fetch_array($result);
-			$_SESSION['user_id'] = $user['id'];
-			$_SESSION['username'] = $user['user_login'];
-			$_SESSION['admin'] = $user['user_status'];
-			$display_name = $user['display_name'];
-			//$_SESSSION['loggedin_time'] = $userDateTime;
-			$core->redirect_to("/");
-			/*
-			echo '<div class="container">';
-			echo '<div class="row">';
-			echo '<div class="col-lg">';
-			echo '<h4>Welcome '.$display_name.'</h4><br>';
-			echo '<p><a href="/">Continue</a></p>';
-			echo '</div>';
-			echo '</div>';
-			echo '</div>';
-			*/
+			$user = mc_getUser($username);
 		}
 	}
 	else
 	{
 	   // The Login Form
-	   echo '<div class="col-lg">';
+	   echo '<div class="col">';
 	   echo '<section>';
 	   echo '<table border="0" cellpadding="3" cellspacing="3" align="center">';
 	   echo '<tr>';
