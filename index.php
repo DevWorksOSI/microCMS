@@ -95,9 +95,9 @@ else
 	while($plugins = $mcdb->fetch_assoc($result))
 	{
 	   $plugin = $plugins['plugin_slug'];
-	   $router->get('/'.$plugin.'', function() use($plugin){
+	   $router->match('GET|POST','/'.$plugin.'', function() use($plugin){
 		 require 'mc-content/plugins/'.$plugin.'/'.$plugin.'.php';
-	   }, ['get','post']);
+	   });
 	}
 	// Run the router
 	$router->run();
